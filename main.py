@@ -3,11 +3,14 @@ import random
 from jikanpy import Jikan
 import jikanpy
 import time
+import base64
 from pprint import pprint
 from urllib.request import Request
 from urllib.request import urlopen
+import git
 
-TOKEN  = open('secret.txt','r').read().split()[0].split('=')[1] #Change to JSON later
+TOKEN  = open('secret.txt','r').read().split()[0].split('=')[1] #getting encoded token
+TOKEN = base64.b64decode(TOKEN).decode("utf-8") #decoding token
 
 client = discord.Client()
 jikan = Jikan()
@@ -219,8 +222,12 @@ async def on_message(message):
         message_string = message_string.replace("l", "v")
         message_string = message_string.replace("ie", 'e')
         await message.channel.send(message_string)
+        return
 
-    if message.content.lower().startswith('define')
+    if message_string.startswith("!restart"):
+        return
+
+    if message.content.lower().startswith('define'):
         msg_split = message.content.lower().split('define ')
         embed = discord.Embed(title = msg_split[1], color=message.author.color)
         embed.set_author(name=message.author)
@@ -274,12 +281,12 @@ async def on_message(message):
                         embed.add_field(name="Urban Dictionary:", value=definition, inline=False)
                         print(definition)
                         await message.channel.send(embed=embed)
-                        break
+                        return
             embed.add_field(name="Urban Dictionary:", value=definition, inline=False)
         except urllib.error.HTTPError:
             print("Could not find a definition from Urban Dictionary")
         await message.channel.send(embed=embed)
-        break
+        return
 
 @client.event
 async def on_ready():
