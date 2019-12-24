@@ -247,7 +247,7 @@ async def on_message(message):
                         tmp_definition = tmp_definition.split("<")[0]
                         definition += f"{count}. " + tmp_definition + "\n"
             embed.add_field(name="Merriam-Webster:", value=definition, inline=False)
-            print(definition)
+            #   print(definition)
             definition = ""
 
         except urllib.error.HTTPError:
