@@ -15,7 +15,6 @@ constantly==15.1.0
 cryptography==2.3
 discord==1.0.1
 discord.py==1.0.1
-distro-info==0.18
 docutils==0.15.2
 get==2019.4.13
 gitdb2==2.0.3
