@@ -8,8 +8,9 @@ from pprint import pprint
 from urllib.request import Request
 from urllib.request import urlopen
 import git
+import urllib
 
-TOKEN  = open('secret.txt','r').read().split()[0].split('=')[1] #getting encoded token
+TOKEN  = open('secret.txt','r').read().split()[0].split(':')[1] #getting encoded token
 TOKEN = base64.b64decode(TOKEN).decode("utf-8") #decoding token
 
 client = discord.Client()
