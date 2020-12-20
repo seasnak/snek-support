@@ -13,25 +13,25 @@ class EightBall(commands.Cog):
         self.bot = bot
 
     @commands.command()
-    async def eightBall(self, message):
+    async def eightBall(self, ctx):
         rand = random.randint(0, len(responses)-1)
-        await message.channel.send(responses[rand])
+        await ctx.channel.send(responses[rand])
         return
 
     @commands.Cog.listener()
-    async def on_message(self, message):
-        question = message.content.lower()
+    async def on_message(self, ctx):
+        question = ctx.content.lower()
         if question.startswith(('is', 'are', 'do', 'should', 'would', 'could', 'may', 'am', 'will', 'can')):
             rand = random.randint(0, len(responses)-1)
-            await message.channel.send(responses[rand])
+            await ctx.channel.send(responses[rand])
         return
 
     @commands.command()
-    async def responses(self):
+    async def responses(self, ctx):
         message = ""
         for i in range(len(responses)):
             message += f"{i}) {responses[i]}\n"
-        await message.channel.send(message)
+        await ctx.channel.send(message)
         return
 
 

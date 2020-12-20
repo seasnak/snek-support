@@ -32,9 +32,9 @@ async def load(ctx, ext):
     try:
         bot.load_extension(ext)
         print(f"Loading extension {ext}")
-        config.extension.append(ext)
+        config.extensions.append(ext)
     except Exception as e:
-        print(f"Failed to load extension {ext}\nError: {type(e).__name__}: {e}")
+        print(f"Failed to load extension {ext}\n{type(e).__name__}: {e}")
     return
 
 @bot.command()
@@ -48,7 +48,7 @@ async def unload(ctx, ext):
         print(f"Unloading extension {ext}")
         config.extensions.remove(ext)
     except Exception as e:
-        print(f"Failed to unload extension {ext}\nError: {type(e).__name__}: {e}")
+        print(f"Failed to unload extension {ext}\n{type(e).__name__}: {e}")
     return
 
 @bot.command()
@@ -61,8 +61,19 @@ async def reload(ctx, ext):
         bot.reload_extension(ext)
         print(f"Reloading extension {ext}")
     except Exception as e:
-        print(f"Failed to reload extension {ext}\nError: {type(e).__name__}: {e}")
+        print(f"Failed to reload extension {ext}\n{type(e).__name__}: {e}")
     return
+
+@bot.command()
+async def extensions(ctx):
+    message = "Currently Loaded Extensions:\n"
+    i = 1
+    for extension in config.extensions:
+        message += f"{i}. {extension}\n"
+        i += 1
+    await ctx.channel.send(message)
+    return
+
 
 if __name__ == "__main__":
     # print(config.extensions)
@@ -71,6 +82,6 @@ if __name__ == "__main__":
             bot.load_extension(ext)
             print(f"Loading extension {ext}")
         except Exception as e:
-            print(f"Failed to load extension {ext}\nError: {type(e).__name__}: {e}")
+            print(f"Failed to load extension {ext}\n{type(e).__name__}: {e}")
 
     bot.run(config.token) #run bot
