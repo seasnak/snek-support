@@ -39,7 +39,7 @@ async def load(ctx, ext):
 
 @bot.command()
 async def unload(ctx, ext):
-    if ext in config.extensions:
+    if ext not in config.extensions:
         print(f"Extension {ext} either does not exist, or is not currently loaded")
         return
 
@@ -53,7 +53,7 @@ async def unload(ctx, ext):
 
 @bot.command()
 async def reload(ctx, ext):
-    if ext in config.extensions:
+    if ext not in config.extensions:
         print(f"Extension {ext} either does not exist, or is not currently loaded")
         return
 

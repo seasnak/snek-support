@@ -20,6 +20,7 @@ class EightBall(commands.Cog):
 
     @commands.Cog.listener()
     async def on_message(self, ctx):
+        if ctx.author == self.bot.user: return #don't reply to self
         question = ctx.content.lower()
         if question.startswith(('is', 'are', 'do', 'should', 'would', 'could', 'may', 'am', 'will', 'can')):
             rand = random.randint(0, len(responses)-1)
@@ -30,8 +31,19 @@ class EightBall(commands.Cog):
     async def responses(self, ctx):
         message = ""
         for i in range(len(responses)):
-            message += f"{i}) {responses[i]}\n"
+            message += f"{i}. {responses[i]}\n"
         await ctx.channel.send(message)
+        return
+
+    @commands.command()
+    async def response_add(self, ctx, response):
+        responses.append(response)
+        print(f"Added new response to 8ball: {response}")
+        return
+
+    @commands.command(alias = "response_remove")
+    async def response_rm(self, ctx, num: int):
+        print(f"Removed reponse: {responses.pop(num)}")
         return
 
 
