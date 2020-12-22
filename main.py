@@ -73,7 +73,7 @@ async def update(ctx):
 
     for extension in config.extensions:
         try:
-            bot.reload(extension)
+            bot.reload_extension(extension)
             print(f"Reloading extension {ext}")
         except Exception as e:
             print(f"Failed to reload extension {ext}\n{type(e).__name__}: {e}")
