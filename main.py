@@ -65,6 +65,17 @@ async def reload(ctx, ext):
     return
 
 @bot.command()
+async def update(ctx):
+    try:
+        os.system("git pull")
+    catch Exception as e:
+        print(f"{type(e).__name__} : {e}")
+
+    for extension in config.extensions:
+        reload(extension)
+    return
+
+@bot.command()
 async def extensions(ctx):
     message = "Currently Loaded Extensions:\n"
     i = 1
