@@ -68,7 +68,7 @@ async def reload(ctx, ext):
 async def update(ctx):
     try:
         os.system("git pull")
-    catch Exception as e:
+    except Exception as e:
         print(f"{type(e).__name__} : {e}")
 
     for extension in config.extensions:
