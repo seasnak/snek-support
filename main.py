@@ -82,7 +82,7 @@ async def update(ctx):
     return
 
 @bot.command()
-async def sys(ctx, message):
+async def sys(ctx, *, message):
     print(f"bash: {message}")
     if f"{ctx.author.id}" not in config.admins: return
     try:
