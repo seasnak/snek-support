@@ -83,6 +83,7 @@ async def update(ctx):
 
 @bot.command()
 async def sys(ctx, message):
+    print(f"bash: {message}")
     if f"{ctx.author.id}" not in config.admins: return
     try:
         output = subprocess.check_output(message)
