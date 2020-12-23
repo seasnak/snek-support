@@ -20,6 +20,7 @@ bot = commands.Bot(command_prefix='!')
 @bot.event
 async def on_ready():
     print(f"Logged in as {bot.user}")
+    await bot.change_presence(activity=discord.Game(name = "UPGRADE TIME"))
     return
 
 @bot.command()
@@ -77,6 +78,18 @@ async def update(ctx):
             print(f"Reloading extension {ext}")
         except Exception as e:
             print(f"Failed to reload extension {ext}\n{type(e).__name__}: {e}")
+    return
+
+@bot.command()
+async def os(ctx, message):
+    if ctx.author not in admins: return
+
+    try:
+        os.system(message)
+        await ctx.channel.send()
+    except Exception as e:
+        print(f"{type(e).__name__} : {e}")
+
     return
 
 @bot.command()
