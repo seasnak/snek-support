@@ -12,16 +12,17 @@ class EightBall(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    @commands.command()
+    @commands.command(
+        help = "ask me a question (usage: ask a yes/no question no ! command necessary)"
+    )
     async def eightBall(self, ctx):
-        """ask me a question (usage: ask a yes/no question no ! command necessary)"""
+
         rand = random.randint(0, len(responses)-1)
         await ctx.channel.send(responses[rand])
         return
 
     @commands.Cog.listener()
     async def on_message(self, ctx):
-        """ask me a question!"""
         if ctx.author == self.bot.user: return #don't reply to self
         question = ""
         try:
@@ -33,26 +34,25 @@ class EightBall(commands.Cog):
             await ctx.channel.send(responses[rand])
         return
 
-    @commands.command()
+    @commands.command(
+        help = "list all responses"
+    )
     async def responses(self, ctx, option = ""):
-        """list all responses (usage: !responses)"""
         # if options.startswith('a'): #add response
         message = ""
         for i in range(len(responses)):
-            message += f"{i}. {responses[i]}\n"
+            message += f"{i-1}. {responses[i]}\n"
         await ctx.channel.send(message)
         return
 
     @commands.command()
     async def response_add(self, ctx, response):
-        """add a new response (usage: !response_add <new response>)"""
         responses.append(response)
         print(f"Added new response to 8ball: {response}")
         return
 
     @commands.command(alias = "response_remove")
     async def response_rm(self, ctx, num: int):
-        """remove an existing response (usage: !respone_rm <reponse number>)"""
         print(f"Removed reponse: {responses.pop(num-1)}")
         return
 

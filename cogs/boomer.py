@@ -10,11 +10,7 @@ non_boomers = []
 class Boomer(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
-        # message = "Everyone's fate has been reset! Don't worry the following people are still boomers:"
-        # for person in config.bonus:
-        #     message += f" <@!{person}>"
-        # await bot.channel.send(message)
-        for person in config.boomer:
+        for person in config.boomers:
             boomers.append(person)
             print(f"Added {person} to boomers list")
         for person in config.admins:

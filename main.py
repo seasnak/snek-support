@@ -1,6 +1,7 @@
 import discord
 from discord.ext import commands
 import os
+import subprocess
 import random
 import sys
 
@@ -75,21 +76,19 @@ async def update(ctx):
     for extension in config.extensions:
         try:
             bot.reload_extension(extension)
-            print(f"Reloading extension {ext}")
+            print(f"Reloading extension {extension}")
         except Exception as e:
-            print(f"Failed to reload extension {ext}\n{type(e).__name__}: {e}")
+            print(f"Failed to reload extension {extension}\n{type(e).__name__}: {e}")
     return
 
 @bot.command()
-async def os(ctx, message):
-    if ctx.author not in admins: return
-
+async def sys(ctx, message):
+    if f"{ctx.author.id}" not in config.admins: return
     try:
-        os.system(message)
-        await ctx.channel.send()
+        output = subprocess.check_output(message)
+        await ctx.channel.send(output.decode("utf-8"))
     except Exception as e:
         print(f"{type(e).__name__} : {e}")
-
     return
 
 @bot.command()
