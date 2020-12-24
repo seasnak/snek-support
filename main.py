@@ -21,7 +21,7 @@ bot = commands.Bot(command_prefix='!')
 @bot.event
 async def on_ready():
     print(f"Logged in as {bot.user}")
-    await bot.change_presence(activity=discord.Game(name = "UPGRADE TIME"))
+    await bot.change_presence(activity=discord.Game(name = "Light Mode"))
     return
 
 @bot.command()

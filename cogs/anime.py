@@ -7,9 +7,11 @@ class Anime(commands.Cog):
         self.bot = bot
         return
 
-    @commands.command()
+    @commands.command(
+        help = "anime search command",
+        usage = "-a "
+    )
     async def anime(self, ctx):
-        """Anime Search Command"""
         rand = random.randint(0, 99)
         if rand == 1:
             embed = discord.Embed(
@@ -26,8 +28,10 @@ class Anime(commands.Cog):
             await ctx.channel.send("weeb.")
         return
 
+    @commands.command(
+        help = "is cory in the house?"
+    )
     async def cory(self, ctx):
-        """Cory in the House Roulette"""
         rand = random.randint(0, 99)
         if rand == 1:
             embed = discord.Embed(
