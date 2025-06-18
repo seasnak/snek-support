@@ -2,3 +2,4 @@ config.py
 SusBotPip/
 SusBot/
 __pycache__/
+venv/
