@@ -1,9 +1,8 @@
+import os
+import sys
+
 import discord
 from discord.ext import commands
-import os
-import subprocess
-import random
-import sys
 
 #LOCAL FILE IMPORTS
 import config
@@ -11,7 +10,7 @@ import config
 sys.path.insert(0, 'cogs/')
 from cogs import *
 
-class SnekSupportBot(commands.bot):
+class SnekSupportBot(commands.Bot):
     def __init__(self, command_prefix): 
         intents = discord.Intents.default()
         intents.message_content = True
@@ -54,7 +53,7 @@ async def load(context, extension):
             return
 
     try:
-        bot.load_extension(extension)
+        await bot.load_extension(extension)
         print(f"Loading extension {extension}")
         config.extensions.append(extension)
     except Exception as exception:
@@ -68,7 +67,7 @@ async def unload(context, extension):
         return
 
     try:
-        bot.unload_extension(extension)
+        await bot.unload_extension(extension)
         print(f"Unloading extension {extension}")
         config.extensions.remove(extension)
     except Exception as exception:
@@ -82,7 +81,7 @@ async def reload(context, extension):
         return
 
     try:
-        bot.reload_extension(extension)
+        await bot.reload_extension(extension)
         print(f"Reloading extension {extension}")
     except Exception as exception:
         print(f"Failed to reload extension {extension}\n{type(exception).__name__}: {exception}")
@@ -97,7 +96,7 @@ async def update(context):
 
     for extension in config.extensions:
         try:
-            bot.reload_extension(extension)
+            await bot.reload_extension(extension)
             print(f"Reloading extension {extension}")
         except Exception as exception:
             print(f"Failed to reload extension {extension}\n{type(exception).__name__}: {exception}")
