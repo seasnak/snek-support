@@ -51,8 +51,9 @@ class SocialCredit(commands.Cog):
         desc="Lists all individuals and their social credit scores."
     )
     async def standings(self, context: commands.Context):
-        message = ""
-        sorted(config.user_social_credit)
+        message: str = ""
+        config.user_social_credit = dict(sorted(config.user_social_credit.items(), key=lambda item: item[0], reverse=True))
+
         for i, user_id in enumerate(config.user_social_credit.keys()):
             user = await context.bot.fetch_user(user_id)
             social_credit = config.user_social_credit[user_id]
