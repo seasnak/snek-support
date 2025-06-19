@@ -68,7 +68,7 @@ class SocialCredit(commands.Cog):
     )
     async def standings(self, context: commands.Context):
         message: str = ""
-        config.user_social_credit = dict(sorted(config.user_social_credit.items()))
+        config.user_social_credit = dict(sorted(config.user_social_credit.items(), key=lambda item: item[1], reverse=True))
 
         for i, user_id in enumerate(config.user_social_credit.keys()):
             user = await context.bot.fetch_user(user_id)
