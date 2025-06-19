@@ -46,6 +46,7 @@ async def on_ready():
 
     SNEKGUILD_ID = 1361576958923767899
     snek_guild = discord.Object(id=SNEKGUILD_ID)
+    bot.tree.copy_global_to(guild=snek_guild)
     await bot.tree.sync(guild=snek_guild)
     print("Commands synced")
     return
@@ -73,7 +74,7 @@ async def load(context: commands.Context, extension: str):
 
 @bot.hybrid_command(
     name="unload",
-    description="Unload an extension. See !loaded for a list of currently loaded extensions.",
+    description="Unload an extension. See !loaded for a list of currently loaded extensions."
 )
 @commands.is_owner()
 async def unload(context: commands.Context, extension: str):

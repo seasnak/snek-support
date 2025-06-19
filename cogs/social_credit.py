@@ -1,3 +1,4 @@
+from discord import NotFound
 from discord.ext import commands
 
 import config
@@ -18,10 +19,25 @@ class SocialCredit(commands.Cog):
             await context.channel.send(f"Could not find user.")
             return
         target_id = int(target_match.group(1))
-        if target_id == context.author.id:
-            return
+        await self.adjust_id_credit(context, target_id, amount)
+        return
 
-        await context.message.add_reaction("👍")
+    async def adjust_id_credit(self, context:commands.Context, target_id:int, amount: int):        
+        if target_id == context.author.id:
+            try:
+                await context.message.add_reaction("👎")
+            except NotFound:
+                await context.send("...")
+            except Exception as exception:
+                print(f"{type(exception).__name__} Error: {exception}.")
+            return
+        
+        try:
+            await context.message.add_reaction("👍")
+        except NotFound:
+            await context.send(f"Success [{amount}]")
+        except Exception as exception:
+            print(f"Error adjusting credit for user {target_id}. {type(exception).__name__}.") 
         if target_id not in config.user_social_credit:
             config.user_social_credit[target_id] = 1000
         config.user_social_credit[target_id] += amount
@@ -30,7 +46,7 @@ class SocialCredit(commands.Cog):
 
     @commands.hybrid_command(
         name="toxicity",
-        desc="Report a toxic individual."
+        description="Report a toxic individual."
     )
     async def toxicity(self, context: commands.Context, target: str):
         amount = random.randint(1, 100)
@@ -39,7 +55,7 @@ class SocialCredit(commands.Cog):
 
     @commands.hybrid_command(
         name="generosity",
-        desc="Support a positive individual."
+        description="Support a positive individual."
     )
     async def generosity(self, context: commands.Context, target: str):
         amount = random.randint(1, 100)
@@ -48,7 +64,7 @@ class SocialCredit(commands.Cog):
 
     @commands.hybrid_command(
         name="standings",
-        desc="Lists all individuals and their social credit scores."
+        description="Lists all individuals and their social credit scores."
     )
     async def standings(self, context: commands.Context):
         message: str = ""
@@ -59,16 +75,19 @@ class SocialCredit(commands.Cog):
             social_credit = config.user_social_credit[user_id]
             message += f"{i+1}. {user.name}: {social_credit}\n"
             # print(user, " ", social_credit)
-        await context.channel.send(message)
+        await context.send(message)
         return
     
     @commands.hybrid_command(
         name="credit",
-        desc="Returns your current Social Credit score.",
+        description="Returns your current Social Credit score.",
     )
     async def credit(self, context: commands.Context):
         user_id: int = context.author.id
-        await context.channel.send(f"{context.author.mention}\'s social credit: {config.user_social_credit.get(user_id)}")
+        if user_id not in config.user_social_credit.keys():
+            config.user_social_credit[user_id] = 1000
+
+        await context.send(f"{context.author.mention}\'s social credit: {config.user_social_credit.get(user_id)}")
         return
 
 async def setup(bot):
