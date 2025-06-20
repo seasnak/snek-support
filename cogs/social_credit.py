@@ -121,8 +121,9 @@ class SocialCredit(commands.Cog):
 
     @commands.hybrid_command(
         name="adduser",
-        description="Adds a user to the social credit. "
+        desc="Adds a user to the social credit. "
     )
+    @commands.is_owner()
     async def adduser(self, context: commands.Context, username: str, start_amount: int = 1000): 
         user_id = self.find_user_id(username)
         if user_id < 0: 
