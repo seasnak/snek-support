@@ -33,15 +33,17 @@ class SocialCredit(commands.Cog):
             except Exception as exception:
                 print(f"{type(exception).__name__} Error: {exception}.")
             return
+
+        user = await context.bot.fetch_user(target_id)
         
+        if target_id not in config.user_social_credit:
+            config.user_social_credit[target_id] = 1000
         try:
             await context.message.add_reaction("👍")
         except NotFound:
-            await context.send(f"Success [{amount}]")
+            await context.send(f"Success on {user}: {config.user_social_credit[target_id]}[{"+" if amount > 0 else ""}{amount}]")
         except Exception as exception:
             print(f"Error adjusting credit for user {target_id}. {type(exception).__name__}.") 
-        if target_id not in config.user_social_credit:
-            config.user_social_credit[target_id] = 1000
         config.user_social_credit[target_id] = max(0, config.user_social_credit[target_id] + amount)
 
         return
