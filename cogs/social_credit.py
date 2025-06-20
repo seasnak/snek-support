@@ -114,6 +114,15 @@ class SocialCredit(commands.Cog):
             await context.send("Failed to remove user.")
         return
 
+    @commands.hybrid_command(
+        name="sctest",
+        desc="testing command",
+    )
+    @commands.is_owner()
+    async def sctest(self, context: commands.Context):
+        await context.send("TEST CODE 1")
+        return 
+
 async def setup(bot):
     await bot.add_cog(SocialCredit(bot))
     return
