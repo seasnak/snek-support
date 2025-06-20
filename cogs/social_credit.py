@@ -91,13 +91,13 @@ class SocialCredit(commands.Cog):
     async def credit(self, context: commands.Context, username: str = "self"):
         user_id: int = context.author.id if username== "self" else self.find_user_id(username)
         if user_id < 0:
-            await context.send(f"usernamenot found.")
+            await context.send(f"{username} not found.")
             return
 
         if user_id not in config.user_social_credit.keys():
             config.user_social_credit[user_id] = 1000
 
-        await context.send(f"{context.author.mention}\'s social credit: {config.user_social_credit.get(user_id)}")
+        await context.send(f"{username}\'s social credit: {config.user_social_credit.get(user_id)}")
         return
     
     @commands.hybrid_command(
