@@ -11,7 +11,6 @@ MIN_AMOUNT: int = 1
 class SocialCredit(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
-        return
 
     def find_user_id(self, username: str) -> int:
         # Returns the usernameID given the user mention.
@@ -128,5 +127,5 @@ async def setup(bot):
     return
 
 async def teardown(bot):
-    await bot.add_cog(SocialCredit(bot))
+    await bot.remove_cog(SocialCredit(bot))
     return 

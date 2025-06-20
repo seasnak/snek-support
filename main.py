@@ -102,8 +102,8 @@ async def reload(context: commands.Context, extension: str):
     extension = extension.strip()
     print(f"Reloading extension \'{extension}\'")
     try:
-        await bot.reload_extension(f"cogs.{extension}")
         await context.send(f"Reloaded extension \'{extension}\'")
+        await bot.reload_extension(f"cogs.{extension}")
     except commands.ExtensionNotFound:
         await context.send(f"Error: Extension \'{extension}\' not found.")
         print(f"ExtensionNotFound Error: Extension \'{extension}\' not found.")
