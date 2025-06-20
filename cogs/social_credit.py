@@ -146,6 +146,9 @@ class SocialCredit(commands.Cog):
             await context.send("User not found.")
             return
         
+        if user_id not in config.user_social_credit.keys():
+            config.user_social_credit[user_id] = 1000
+
         user = await context.bot.fetch_user(user_id)
         config.user_social_credit[user_id] += adjustment
         await context.send(f"{user.name}: {"+" if adjustment>0 else ""}{adjustment} => {config.user_social_credit[user_id]}")
