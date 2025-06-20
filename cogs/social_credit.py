@@ -102,7 +102,7 @@ class SocialCredit(commands.Cog):
     
     @commands.hybrid_command(
         name="removeuser",
-        desc="Removes a username from the Social Credit System", 
+        description="Removes a username from the Social Credit System", 
     )
     @commands.is_owner()
     async def removeuser(self, context: commands.Context, username: str):
@@ -121,7 +121,7 @@ class SocialCredit(commands.Cog):
 
     @commands.hybrid_command(
         name="adduser",
-        desc="Adds a user to the social credit. "
+        description="Adds a user to the social credit. "
     )
     @commands.is_owner()
     async def adduser(self, context: commands.Context, username: str, start_amount: int = 1000): 
@@ -134,6 +134,24 @@ class SocialCredit(commands.Cog):
         config.user_social_credit[user_id] = start_amount
         await context.send(f"Added {user.name} with a credit of {start_amount}.")
         return
+
+    @commands.hybrid_command(
+        name="adjustcredit",
+        description="Adjust credit for user. Use negative number for reductions"
+    )
+    @commands.is_owner()
+    async def adjustcredit(self, context: commands.Context, username: str, adjustment: int):
+        user_id = self.find_user_id(username)
+        if user_id < 0:
+            await context.send("User not found.")
+            return
+        
+        user = await context.bot.fetch_user(user_id)
+        config.user_social_credit[user_id] += adjustment
+        await context.send(f"{user.name}: {"+" if adjustment>0 else ""}{adjustment} => {config.user_social_credit[user_id]}")
+        return
+
+
 
 async def setup(bot):
     await bot.add_cog(SocialCredit(bot))
