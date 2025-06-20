@@ -13,12 +13,14 @@ class SocialCredit(commands.Cog):
         self.bot = bot
         return
 
+    def find_user_id(self, user: str) -> int:
+        # Returns the User ID given the user mention.
+        match_user: re.Match|None = re.match(r"<@!?(\d+)>", user)
+        return -1 if match_user == None else int(match_user.group(1))
+
     async def adjust_credit(self, context: commands.Context, target:str, amount):
-        target_match: re.Match|None = re.match(r"<@!?(\d+)>", target)
-        if target_match == None:
-            await context.channel.send(f"Could not find user.")
-            return
-        target_id = int(target_match.group(1))
+        target_id = self.find_user_id(target)
+        if target_id < 0: return
         await self.adjust_id_credit(context, target_id, amount)
         return
 
@@ -40,7 +42,7 @@ class SocialCredit(commands.Cog):
             print(f"Error adjusting credit for user {target_id}. {type(exception).__name__}.") 
         if target_id not in config.user_social_credit:
             config.user_social_credit[target_id] = 1000
-        config.user_social_credit[target_id] += amount
+        config.user_social_credit[target_id] = max(0, config.user_social_credit[target_id] + amount)
 
         return
 
@@ -74,16 +76,19 @@ class SocialCredit(commands.Cog):
             user = await context.bot.fetch_user(user_id)
             social_credit = config.user_social_credit[user_id]
             message += f"{i+1}. {user.name}: {social_credit}\n"
-            # print(user, " ", social_credit)
         await context.send(message)
         return
-    
+
     @commands.hybrid_command(
         name="credit",
         description="Returns your current Social Credit score.",
     )
-    async def credit(self, context: commands.Context):
-        user_id: int = context.author.id
+    async def credit(self, context: commands.Context, user: str = "self"):
+        user_id: int = context.author.id if user == "self" else self.find_user_id(user)
+        if user_id < 0:
+            await context.send(f"User not found.")
+            return
+
         if user_id not in config.user_social_credit.keys():
             config.user_social_credit[user_id] = 1000
 
