@@ -97,7 +97,7 @@ class SocialCredit(commands.Cog):
             config.user_social_credit[user_id] = 1000
         
         user = context.bot.fetch_user(user_id)
-        await context.send(f"{user}\'s social credit: {config.user_social_credit.get(user_id)}")
+        await context.send(f"{user.name}\'s social credit: {config.user_social_credit.get(user_id)}")
         return
     
     @commands.hybrid_command(
@@ -114,7 +114,7 @@ class SocialCredit(commands.Cog):
         user = context.bot.fetch_user(user_id)
         try:
             config.user_social_credit.pop(user)
-            await context.send(f"Removed {user}.")
+            await context.send(f"Removed {user.name}.")
         except:
             await context.send("Failed to remove user.")
         return
@@ -131,7 +131,7 @@ class SocialCredit(commands.Cog):
         
         user = context.bot.fetch_user(user_id)
         config.user_social_credit[user_id] = start_amount
-        await context.send(f"Added {user} with a credit of {start_amount}.")
+        await context.send(f"Added {user.name} with a credit of {start_amount}.")
         return
 
 async def setup(bot):
