@@ -54,16 +54,19 @@ async def on_ready():
 
 @bot.hybrid_command(
     name="reloadcommands",
-    description="Reload the slash commands list"
+    description="Reload the slash commands list",
 )
 @commands.is_owner()
-async def reloadcommands(context: commands.Context):
-    SNEKGUILD_ID = 1361576958923767899
-    snek_guild = discord.Object(id=SNEKGUILD_ID)
-    bot.tree.copy_global_to(guild=snek_guild)
-    await bot.tree.sync(guild=snek_guild)
+async def reload_commands(context: commands.Context, guild_id: int = 1361576958923767899):
+    target_guild = discord.Object(id=guild_id)
+    bot.tree.copy_global_to(guild=target_guild)
+    await bot.tree.sync(guild=target_guild)
     print("Commands Synced")
-    await context.send("Commands Synced")
+    try:
+        await context.send("Commands Reloaded")
+    except:
+        print("Failed to send message, trying again.")
+        await context.channel.send("Commands Reloaded")
     return
 
 
