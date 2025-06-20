@@ -96,7 +96,7 @@ class SocialCredit(commands.Cog):
         if user_id not in config.user_social_credit.keys():
             config.user_social_credit[user_id] = 1000
         
-        user = context.bot.fetch_user(user_id)
+        user = await context.bot.fetch_user(user_id)
         await context.send(f"{user.name}\'s social credit: {config.user_social_credit.get(user_id)}")
         return
     
@@ -111,7 +111,7 @@ class SocialCredit(commands.Cog):
             await context.send("User not found.")
             return
         
-        user = context.bot.fetch_user(user_id)
+        user = await context.bot.fetch_user(user_id)
         try:
             config.user_social_credit.pop(user)
             await context.send(f"Removed {user.name}.")
@@ -129,7 +129,7 @@ class SocialCredit(commands.Cog):
             await context.send("User not found.")
             return
         
-        user = context.bot.fetch_user(user_id)
+        user = await context.bot.fetch_user(user_id)
         config.user_social_credit[user_id] = start_amount
         await context.send(f"Added {user.name} with a credit of {start_amount}.")
         return
