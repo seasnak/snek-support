@@ -118,8 +118,8 @@ async def reload(context: commands.Context, extension: str):
     name="update",
     description="Downloads any updates and reloads all extensions.",
 )
+@commands.is_owner()
 async def update(context: commands.Context):
-    if context.author.id != config.owner_id: return
     try:
         os.system("git pull")
     except Exception as exception:
