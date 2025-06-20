@@ -41,7 +41,7 @@ class SocialCredit(commands.Cog):
         try:
             await context.message.add_reaction("👍")
         except NotFound:
-            await context.send(f"Success on {user}: {config.user_social_credit[target_id]}[{"+" if amount > 0 else ""}{amount}]")
+            await context.send(f"Success on {user}: {config.user_social_credit[target_id]} [{"+" if amount > 0 else ""}{amount}]")
         except Exception as exception:
             print(f"Error adjusting credit for user {target_id}. {type(exception).__name__}.") 
         config.user_social_credit[target_id] = max(0, config.user_social_credit[target_id] + amount)
