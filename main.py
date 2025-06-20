@@ -124,7 +124,7 @@ async def update(context: commands.Context):
         os.system("git pull")
     except Exception as exception:
         print(f"{type(exception).__name__} : {exception}")
-        await context.channel.send("Error: Failed to pull update from git.")
+        await context.send("Error: Failed to pull update from git.")
 
     for extension in config.extensions:
         try:
@@ -132,7 +132,7 @@ async def update(context: commands.Context):
             print(f"Reloading extension {extension}")
         except Exception as exception:
             print(f"Failed to reload extension {extension}\n{type(exception).__name__}: {exception}")
-    await context.channel.send("Successfully updated.")
+    await context.send("Successfully updated.")
     return
 
 @bot.hybrid_command(

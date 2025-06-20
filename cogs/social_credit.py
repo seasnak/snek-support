@@ -71,9 +71,10 @@ class SocialCredit(commands.Cog):
         name="standings",
         description="Lists all individuals and their social credit scores."
     )
-    async def standings(self, context: commands.Context):
+    async def standings(self, context: commands.Context, resort=True):
         message: str = ""
-        config.user_social_credit = dict(sorted(config.user_social_credit.items(), key=lambda item: item[1], reverse=True))
+        if resort:
+            config.user_social_credit = {k: v for k,v in sorted(config.user_social_credit.items(), key=lambda item: item[1], reverse=True)}
 
         for i, user_id in enumerate(config.user_social_credit.keys()):
             user = await context.bot.fetch_user(user_id)
