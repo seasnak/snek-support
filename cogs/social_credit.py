@@ -90,37 +90,49 @@ class SocialCredit(commands.Cog):
     async def credit(self, context: commands.Context, username: str = "self"):
         user_id: int = context.author.id if username== "self" else self.find_user_id(username)
         if user_id < 0:
-            await context.send(f"{username} not found.")
+            await context.send(f"User not found.")
             return
 
         if user_id not in config.user_social_credit.keys():
             config.user_social_credit[user_id] = 1000
-
-        await context.send(f"{username}\'s social credit: {config.user_social_credit.get(user_id)}")
+        
+        user = context.bot.fetch_user(user_id)
+        await context.send(f"{user}\'s social credit: {config.user_social_credit.get(user_id)}")
         return
     
     @commands.hybrid_command(
         name="removeuser",
-        desc="Removes a usernamefrom the Social Credit System", 
+        desc="Removes a username from the Social Credit System", 
     )
     @commands.is_owner()
     async def removeuser(self, context: commands.Context, username: str):
         user_id = self.find_user_id(username)
+        if user_id < 0: 
+            await context.send("User not found.")
+            return
+        
+        user = context.bot.fetch_user(user_id)
         try:
-            config.user_social_credit.pop(user_id)
-            await context.send(f"Removed {username}.")
+            config.user_social_credit.pop(user)
+            await context.send(f"Removed {user}.")
         except:
             await context.send("Failed to remove user.")
         return
 
     @commands.hybrid_command(
-        name="sctest",
-        desc="testing command",
+        name="adduser",
+        description="Adds a user to the social credit. "
     )
-    @commands.is_owner()
-    async def sctest(self, context: commands.Context):
-        await context.send("TEST CODE 1")
-        return 
+    async def adduser(self, context: commands.Context, username: str, start_amount: int = 1000): 
+        user_id = self.find_user_id(username)
+        if user_id < 0: 
+            await context.send("User not found.")
+            return
+        
+        user = context.bot.fetch_user(user_id)
+        config.user_social_credit[user_id] = start_amount
+        await context.send(f"Added {user} with a credit of {start_amount}.")
+        return
 
 async def setup(bot):
     await bot.add_cog(SocialCredit(bot))
