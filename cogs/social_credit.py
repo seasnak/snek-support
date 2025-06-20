@@ -35,9 +35,10 @@ class SocialCredit(commands.Cog):
             return
 
         username= await context.bot.fetch_user(target_id)
-        new_credit = max(0, config.user_social_credit[target_id] + amount)
         if target_id not in config.user_social_credit:
             config.user_social_credit[target_id] = 1000
+        
+        new_credit = max(0, config.user_social_credit[target_id] + amount)
         try:
             await context.message.add_reaction("👍")
         # except NotFound:
