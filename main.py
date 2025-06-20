@@ -57,11 +57,12 @@ async def on_ready():
     description="Reload the slash commands list"
 )
 @commands.is_owner()
-async def reload_commands(context: commands.Context):
+async def reloadcommands(context: commands.Context):
     SNEKGUILD_ID = 1361576958923767899
     snek_guild = discord.Object(id=SNEKGUILD_ID)
     bot.tree.copy_global_to(guild=snek_guild)
     await bot.tree.sync(guild=snek_guild)
+    print("Commands Synced")
     await context.send("Commands Synced")
     return
 
