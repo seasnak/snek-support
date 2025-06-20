@@ -22,16 +22,17 @@ class SnekSupportBot(commands.Bot):
         for extension in config.extensions:
             try:
                 await self.load_extension(f"cogs.{extension}")
-                print(f"Loaded extensions \'{extension}\'")
+                print(f"Loaded extension \'{extension}\'")
             except Exception as exception:
                 print(
-                    f"Failed to load extensions \'{extension}\'\n" +
+                    f"Failed to load extension \'{extension}\'\n" +
                     f"{type(exception).__name__}: {exception}"
                 )
                 errored_extensions.append(extension)
             
             print(f"Loaded extensions: {[x for x in self.cogs]}")
-        
+       
+        print(f"Loaded Extensions: {self.extensions}")
         for extension in errored_extensions: 
             config.extensions.remove(extension)
 
@@ -111,7 +112,7 @@ async def reload(context: commands.Context, extension: str):
         print(f"Error: Extension \'{extension}\' already loaded.")
     except Exception as exception:
         await context.send(f"Failed to reload extension \'{extension}\'.")
-        print(f"Error reloading extensions \'{extension}\'. \n{type(exception).__name__}: {exception}")
+        print(f"Error reloading extension \'{extension}\'. \n{type(exception).__name__}: {exception}")
     return
 
 @bot.hybrid_command(
