@@ -23,16 +23,17 @@ class SnekSupportBot(commands.Bot):
         for extension in config.extensions:
             try:
                 await self.load_extension(f"cogs.{extension}")
-                print(f"Loaded extensions \'{extension}\'")
+                print(f"Loaded extension \'{extension}\'")
             except Exception as exception:
                 print(
-                    f"Failed to load extensions \'{extension}\'\n" +
+                    f"Failed to load extension \'{extension}\'\n" +
                     f"{type(exception).__name__}: {exception}"
                 )
                 errored_extensions.append(extension)
             
             print(f"Loaded extensions: {[x for x in self.cogs]}")
-        
+       
+        print(f"Loaded Extensions: {self.extensions}")
         for extension in errored_extensions: 
             config.extensions.remove(extension)
 
@@ -53,6 +54,24 @@ async def on_ready():
     return
 
 @bot.hybrid_command(
+    name="reloadcommands",
+    description="Reload the slash commands list",
+)
+@commands.is_owner()
+async def reload_commands(context: commands.Context, guild_id: int = 1361576958923767899):
+    target_guild = discord.Object(id=guild_id)
+    bot.tree.copy_global_to(guild=target_guild)
+    await bot.tree.sync(guild=target_guild)
+    print("Commands Synced")
+    try:
+        await context.send("Commands Reloaded")
+    except:
+        print("Failed to send message, trying again.")
+        await context.channel.send("Commands Reloaded")
+    return
+
+
+@bot.hybrid_command(
     name="load",
     description="Load an extension. See !extensions for a list of available extensions.",
 )
@@ -62,15 +81,15 @@ async def load(context: commands.Context, extension: str):
     try:
         await bot.load_extension(f"cogs.{extension}")
         print(f"Loaded extension \'{extension}\'.")
-        await context.channel.send(f"Loaded extension \'{extension}\'.")
+        await context.send(f"Loaded extension \'{extension}\'.")
         config.extensions.append(f"{extension}")
     except commands.ExtensionNotFound:
-        await context.channel.send(f"Error: Extension \'{extension}\' not found.")
+        await context.send(f"Error: Extension \'{extension}\' not found.")
     except commands.ExtensionAlreadyLoaded:
-        await context.channel.send(f"Error: Extension \'{extension}\' already loaded.")
+        await context.send(f"Error: Extension \'{extension}\' already loaded.")
     except Exception as exception:
         print(f"Failed to load extension {extension}\n{type(exception).__name__}: {exception}")
-        await context.channel.send(f"Failed to load extension \'{extension}\'.")
+        await context.send(f"Failed to load extension \'{extension}\'.")
     return
 
 @bot.hybrid_command(
@@ -82,15 +101,15 @@ async def unload(context: commands.Context, extension: str):
     extension = extension.strip()
     try:
         await bot.unload_extension(f"cogs.{extension}")
-        await context.channel.send(f"Unloaded extension \'{extension}\'.")
+        await context.send(f"Unloaded extension \'{extension}\'.")
         config.extensions.remove(f"{extension}")
     except commands.ExtensionNotFound:
-        await context.channel.send(f"Error: Extension \'{extension}\' not found.")
+        await context.send(f"Error: Extension \'{extension}\' not found.")
     except commands.ExtensionAlreadyLoaded:
-        await context.channel.send(f"Error: Extension \'{extension}\' already loaded.")
+        await context.send(f"Error: Extension \'{extension}\' already loaded.")
     except Exception as exception:
         print(f"Failed to unload extension \'{extension}\'. \n{type(exception).__name__}: {exception}")
-        await context.channel.send(f"Failed to unload extension \'{extension}\'.")
+        await context.send(f"Failed to unload extension \'{extension}\'.")
     return
 
 @bot.hybrid_command(
@@ -102,30 +121,30 @@ async def reload(context: commands.Context, extension: str):
     extension = extension.strip()
     print(f"Reloading extension \'{extension}\'")
     try:
+        await context.send(f"Reloaded extension \'{extension}\'")
         await bot.reload_extension(f"cogs.{extension}")
-        await context.channel.send(f"Reloaded extension \'{extension}\'")
     except commands.ExtensionNotFound:
-        await context.channel.send(f"Error: Extension \'{extension}\' not found.")
+        await context.send(f"Error: Extension \'{extension}\' not found.")
         print(f"ExtensionNotFound Error: Extension \'{extension}\' not found.")
     except commands.ExtensionAlreadyLoaded:
-        await context.channel.send(f"Error: Extension \'{extension}\' already loaded.")
+        await context.send(f"Error: Extension \'{extension}\' already loaded.")
         print(f"Error: Extension \'{extension}\' already loaded.")
     except Exception as exception:
-        await context.channel.send(f"Failed to reload extension \'{extension}\'.")
-        print(f"Error reloading extensions \'{extension}\'. \n{type(exception).__name__}: {exception}")
+        await context.send(f"Failed to reload extension \'{extension}\'.")
+        print(f"Error reloading extension \'{extension}\'. \n{type(exception).__name__}: {exception}")
     return
 
 @bot.hybrid_command(
     name="update",
     description="Downloads any updates and reloads all extensions.",
 )
+@commands.is_owner()
 async def update(context: commands.Context):
-    if context.author.id != config.owner_id: return
     try:
         os.system("git pull")
     except Exception as exception:
         print(f"{type(exception).__name__} : {exception}")
-        await context.channel.send("Error: Failed to pull update from git.")
+        await context.send("Error: Failed to pull update from git.")
 
     for extension in config.extensions:
         try:
@@ -133,7 +152,7 @@ async def update(context: commands.Context):
             print(f"Reloading extension {extension}")
         except Exception as exception:
             print(f"Failed to reload extension {extension}\n{type(exception).__name__}: {exception}")
-    await context.channel.send("Successfully updated.")
+    await context.send("Successfully updated.")
     return
 
 @bot.hybrid_command(
@@ -144,7 +163,7 @@ async def loaded(context: commands.Context):
     message = "Currently Loaded extensions:\n"
     for i, extension in enumerate(config.extensions):
         message += f"{i+1}. {extension}\n"
-    await context.channel.send(message)
+    await context.send(message)
     return
 
 @bot.hybrid_command(
@@ -152,7 +171,7 @@ async def loaded(context: commands.Context):
     description="Lists all available extensions."
 )
 async def extensions(context: commands.Context):
-    await context.channel.send("Not implemented (yet).")
+    await context.send("Not implemented (yet).")
     return
 
 @bot.hybrid_command(
@@ -160,7 +179,7 @@ async def extensions(context: commands.Context):
     description="pong!"
 )
 async def ping(context: commands.Context):
-    await context.channel.send("pong!")
+    await context.send("pong!")
     return
 
 bot.run(config.token)
