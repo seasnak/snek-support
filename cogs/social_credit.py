@@ -90,7 +90,7 @@ class SocialCredit(commands.Cog):
         description="Returns your current Social Credit score.",
     )
     async def credit(self, context: commands.Context, username: str = "self"):
-        user_id: int = context.author.id if username== "self" else self.find_user_id(username)
+        user_id: int = context.author.id if username== "self" else utils.find_user_id(username)
         if user_id < 0:
             await context.send(f"User not found.")
             return
