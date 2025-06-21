@@ -6,6 +6,7 @@ from discord.ext import commands
 
 #LOCAL FILE IMPORTS
 import config
+import utils
 
 sys.path.insert(0, 'cogs/')
 from cogs import *
