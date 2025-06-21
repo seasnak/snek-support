@@ -4,7 +4,6 @@ from discord.ext import commands
 from datetime import datetime, time
 
 import config
-import re
 import random
 import utils
 
@@ -21,7 +20,7 @@ class SocialCredit(commands.Cog):
         await self.adjust_id_credit(context, target_id, amount)
         return
 
-    async def adjust_id_credit(self, context:commands.Context, target_id:int, amount: int):        
+    async def adjust_id_credit(self, context:commands.Context, target_id:int, amount: int): 
         if target_id == context.author.id:
             try:
                 await context.message.add_reaction("👎")
@@ -35,14 +34,15 @@ class SocialCredit(commands.Cog):
         if target_id not in config.user_social_credit:
             config.user_social_credit[target_id] = 1000
         
-        new_credit = max(0, config.user_social_credit[target_id] + amount)
+        start_credit = config.user_social_credit[target_id]
+        new_credit = max(0, start_credit + amount)
         try:
             await context.message.add_reaction("👍")
         # except NotFound:
         #     print("Message not found")
         except Exception as exception:
             print(f"Error adjusting credit for username{target_id}. {type(exception).__name__}.") 
-        await context.send(f"{username}: {config.user_social_credit[target_id]} [{"+" if amount > 0 else ""}{amount}] = {new_credit}")
+        await context.send(f"{username}: {start_credit} [{"+" if amount > 0 else ""}{amount}] = {new_credit}")
         config.user_social_credit[target_id] = new_credit
         
         return

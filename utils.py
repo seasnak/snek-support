@@ -5,6 +5,4 @@ def find_user_id(user: str) -> int:
     match_user: re.Match|None = re.match(r"<@!?(\d+)>", user)
     return -1 if match_user == None else int(match_user.group(1))
 
-def debug_print(message: str):
-    
-    return
+

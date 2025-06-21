@@ -4,6 +4,9 @@ import sys
 import discord
 from discord.ext import commands
 
+import pickle
+import sqlite3
+
 #LOCAL FILE IMPORTS
 import config
 import utils
@@ -181,5 +184,33 @@ async def extensions(context: commands.Context):
 async def ping(context: commands.Context):
     await context.send("pong!")
     return
+
+import pickle
+
+# @bot.hybrid_command(
+#     name="saveconfig",
+#     description=""
+# )
+# @commands.is_owner()
+# async def saveconfig(context: commands.Context, filename: str):
+#     file = open(filename, 'wb')
+#     pickle.dump(config.user_social_credit, file)
+#
+#     return
+
+@bot.hybrid_command(
+    name="config2db",
+    description="",
+)
+@commands.is_owner()
+async def config2db(context: commands.Context, database_filename: str = 'botconfig.db'):
+    connection = sqlite3.connect('database_filename')
+
+    cursor = connection.cursor()
+
+
+    return
+
+
 
 bot.run(config.token)
