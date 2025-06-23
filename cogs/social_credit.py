@@ -7,6 +7,8 @@ import config
 import random
 import utils
 
+import pickle
+
 MAX_AMOUNT: int = 100
 MIN_AMOUNT: int = 1
 
@@ -69,7 +71,7 @@ class SocialCredit(commands.Cog):
         name="standings",
         description="Lists all individuals and their social credit scores."
     )
-    async def standings(self, context: commands.Context, resort=True):
+    async def standings(self, context: commands.Context, resort=True, save=False):
         message: str = ""
         if resort:
             config.user_social_credit = {k: v for k,v in sorted(config.user_social_credit.items(), key=lambda item: item[1], reverse=True)}
@@ -83,6 +85,9 @@ class SocialCredit(commands.Cog):
             await context.send(message)
         except:
             await context.channel.send(message)
+
+        if save == True:
+            await self.save_social_credit(context)
         return
 
     @commands.hybrid_command(
@@ -156,7 +161,35 @@ class SocialCredit(commands.Cog):
         await context.send(f"{user.name}: {"+" if adjustment>0 else ""}{adjustment} => {config.user_social_credit[user_id]}")
         return
 
+    @commands.hybrid_command(
+        name="savecredit",
+        description=""
+    )
+    @commands.is_owner()
+    async def save_social_credit(self, context: commands.Context, filename: str = 'socialcredit.pkl'):
+        file = open(filename, 'wb')
+        pickle.dump(config.user_social_credit, file)
+        
+        try:
+            await context.send("Successfully saved user social credit.")
+        except:
+            await context.channel.send("Successfully saved user social credit.")
+        return
+    
+    @commands.hybrid_command(
+        name="loadcredit",
+        description="",
+    )
+    @commands.is_owner()
+    async def load_social_credit(self, context: commands.Context, filename: str = 'socialcredit.pkl'): 
+        file = open(filename, 'rb')
+        config.user_social_credit = pickle.load(file)
 
+        try:
+            await context.send("Succesfully loaded user social credit")
+        except:
+            await context.channel.send("Successfully loaded user social credit")
+        return
 
 async def setup(bot):
     await bot.add_cog(SocialCredit(bot))
