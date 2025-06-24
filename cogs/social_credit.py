@@ -58,15 +58,16 @@ class SocialCredit(commands.Cog):
     async def toxicity(self, context: commands.Context, target: str):
         author_id = context.author.id
         TOXICITY_COOLDOWN = 30
-
+        
+        current_time = time.time()
         if author_id not in config.user_toxicity_timer:
-            config.user_toxicity_timer[author_id] = float(0)
-        elif time.time() - config.user_toxicity_timer[author_id] < TOXICITY_COOLDOWN:
-            time_difference = math.floor(time.time() - config.user_toxicity_timer[author_id])
+            config.user_toxicity_timer[author_id] = current_time
+        elif current_time - config.user_toxicity_timer[author_id] < TOXICITY_COOLDOWN:
+            time_difference = int(current_time - config.user_toxicity_timer[author_id])
             await utils.send_context_message(context, f"Can't use that command yet! Wait {time_difference} seconds and try again.")
             return
         
-        config.user_toxicity_timer[author_id] = time.time()
+        config.user_toxicity_timer[author_id] = current_time
         amount = random.randint(1, 100)
         await self.adjust_credit(context, target, -amount)
         return
