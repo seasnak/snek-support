@@ -1,11 +1,13 @@
 from discord import NotFound
 from discord.ext import commands
 
-from datetime import datetime, time
+import time
+from datetime import datetime
 
 import config
 import random
 import utils
+import math
 
 import pickle
 
@@ -54,6 +56,17 @@ class SocialCredit(commands.Cog):
         description="Report a toxic individual."
     )
     async def toxicity(self, context: commands.Context, target: str):
+        author_id = context.author.id
+        TOXICITY_COOLDOWN = 30
+
+        if author_id not in config.user_toxicity_timer:
+            config.user_toxicity_timer[author_id] = float(0)
+        elif time.time() - config.user_toxicity_timer[author_id] < TOXICITY_COOLDOWN:
+            time_difference = math.floor(time.time() - config.user_toxicity_timer[author_id])
+            await utils.send_context_message(context, f"Can't use that command yet! Wait {time_difference} seconds and try again.")
+            return
+        
+        config.user_toxicity_timer[author_id] = time.time()
         amount = random.randint(1, 100)
         await self.adjust_credit(context, target, -amount)
         return
