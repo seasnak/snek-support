@@ -64,7 +64,7 @@ class SocialCredit(commands.Cog):
             config.user_toxicity_timer[author_id] = current_time
         elif current_time - config.user_toxicity_timer[author_id] < TOXICITY_COOLDOWN:
             time_difference = int(current_time - config.user_toxicity_timer[author_id])
-            await utils.send_context_message(context, f"Can't use that command yet! Wait {time_difference} seconds and try again.")
+            await utils.send_context_message(context, f"Can't use that command yet! Wait {TOXICITY_COOLDOWN - time_difference} seconds and try again.")
             return
         
         config.user_toxicity_timer[author_id] = current_time
