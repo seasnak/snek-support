@@ -39,7 +39,7 @@ class SocialCredit(commands.Cog):
             config.user_social_credit[target_id] = 1000
         
         start_credit = config.user_social_credit[target_id]
-        new_credit = max(0, start_credit + amount)
+        new_credit = max(-1000, start_credit + amount)
         try:
             await context.message.add_reaction("👍")
         # except NotFound:
