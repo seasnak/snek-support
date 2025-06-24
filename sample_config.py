@@ -1,5 +1,5 @@
 token = ""
-owner_id = 269662730821042176
+owner_id = 0
 
 default_extensions = [
     'hello',
@@ -13,6 +13,6 @@ extensions = [
 
 users = {}
 
-user_social_credit = {
-    269662730821042176 : 1000,
-}
+user_toxicity_timer = {}
+
+user_social_credit = {}
