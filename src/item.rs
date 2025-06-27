@@ -4,6 +4,8 @@ use pyo3::prelude::*;
 struct Item {
     #[pyo3(get)]
     pub name: String,
+    #[pyo3(get)]
+    pub description: String,
     pub quantity: i8,
 }
 
@@ -15,19 +17,5 @@ impl Item {
             Some(n) => n,
             None => 1,
         };
-
-        Item {
-            name: item_name, // might need to do a copy?
-            quantity: num_items,
-        }
-    }
-}
-
-impl Copy for Item {
-    fn copy(&self) -> Self {
-        Item {
-            name: self.name.clone(),
-            quantity: self.quantity,
-        }
     }
 }

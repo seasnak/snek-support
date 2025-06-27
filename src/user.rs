@@ -1,13 +1,18 @@
 use pyo3::prelude::*;
+use std::collections::HashMap;
+
+mod Item;
 
 #[pyclass]
 struct User {
     #[pyo3(get, set)]
     pub id: i64,
     #[pyo3(get, set)]
-    pub name: String,
+    pub username: String,
     #[pyo3(get, set)]
     pub social_credit: i16,
+    #[pyo3(get, set)]
+    pub coins: i16,
     pub items: HashMap<String, Item>,
 }
 

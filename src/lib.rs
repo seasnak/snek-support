@@ -1,10 +1,16 @@
 use pyo3::prelude::*;
 
-mod item;
-mod user;
+pub mod item;
+pub mod user;
+
+use item::{Consumable, KeyItem};
+use user::User;
 
 #[pymodule]
-fn user(_py: Python<'_>, m: &PyModule) -> PyResult<()> {}
+fn discord_pyo3_rust(_py: Python, m: &PyModule) -> PyResult<()> {
+    m.add_class::<User>()?;
+    m.add_class::<Consumable>()?;
+    m.add_class::<KeyItem>()?;
 
-#[pymodule]
-fn item(_py: Python<'_>, m: &PyModule) -> PyResult<()> {}
+    Ok(())
+}
