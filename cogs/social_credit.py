@@ -71,8 +71,8 @@ class SocialCredit(commands.Cog):
         amount = random.randint(1, 100)
         
         if "random" in target or "Random" in target:
-            members = [member.id for member in await context.guild.members]
-            random_target = members[random.randint(0, len(members))]
+            members = [member.id for member in context.guild.members]
+            random_target = str(members[random.randint(0, len(members))])
             await self.adjust_credit(context, random_target, -amount)
         await self.adjust_credit(context, target, -amount)
         return
