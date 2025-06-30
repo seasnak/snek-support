@@ -70,7 +70,7 @@ class SocialCredit(commands.Cog):
         config.user_toxicity_timer[author_id] = current_time
         amount = random.randint(1, 100)
         
-        if "random" in target or "Random" in target:
+        if "random" in target.lower():
             members = [member.id for member in context.guild.members]
             random_target = str(members[random.randint(0, len(members))])
             await self.adjust_credit(context, random_target, -amount)
