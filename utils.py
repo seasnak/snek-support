@@ -13,3 +13,5 @@ async def send_context_message(context: commands.Context, message: str):
     except:
         await context.channel.send(message)
     return
+
+

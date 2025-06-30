@@ -1,8 +1,6 @@
 use pyo3::prelude::*;
 use std::collections::HashMap;
 
-mod Item;
-
 #[pyclass]
 struct User {
     #[pyo3(get, set)]
