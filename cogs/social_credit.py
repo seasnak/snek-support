@@ -50,6 +50,32 @@ class SocialCredit(commands.Cog):
         config.user_social_credit[target_id] = new_credit
         
         return
+    
+    @commands.hybrid_command(
+        name="equality",
+        description="When will you learn..."
+    )
+    async def equality(self, context: commands.Context):
+        author_id = context.author.id
+        TOXICITY_COOLDOWN = 30
+
+        current_time = time.time()
+        if autho_id not in config.user_toxicity_timer:
+            config.user_toxicity_timer[author_id] = current_time
+        elif current_time - config.user_toxicity_timer[author_id] < TOXICITY_COOLDOWN:
+            time_difference = int(current_time - config.user_toxicity_timer[author_id])
+            await utils.send_context_message(context, f"Can't use that command yet! Wait {TOXICITY_COOLDOWN - time_difference} seconds and try again.")
+            return
+        
+        config.user_toxicity_timer[author_id] = current_time
+        amount = random.randint(1, 100)
+        members = [member.id for member in context.guild.members]
+        random_toxicity_target = members[random.randint(0, len(members)-1)]
+        random_generosity_target = members[random.randint(0, len(members)-1]
+        await self.adjust_id_credit(context, random_toxicity_target, -amount, allow_self=True)
+        await self.adjust_id_credit(context, random_generosity_target, amount, allow_self=True)
+        return
+ 
 
     @commands.hybrid_command(
         name="toxicity",
