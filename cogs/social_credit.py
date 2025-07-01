@@ -24,8 +24,8 @@ class SocialCredit(commands.Cog):
         await self.adjust_id_credit(context, target_id, amount)
         return
 
-    async def adjust_id_credit(self, context:commands.Context, target_id:int, amount: int): 
-        if target_id == context.author.id:
+    async def adjust_id_credit(self, context:commands.Context, target_id:int, amount: int, allow_self: bool = False): 
+        if target_id == context.author.id and allow_self == False:
             try:
                 await context.message.add_reaction("👎")
             except NotFound:
@@ -73,7 +73,7 @@ class SocialCredit(commands.Cog):
         if "random" in target.lower():
             members = [member.id for member in context.guild.members]
             random_target = members[random.randint(0, len(members))]
-            await self.adjust_id_credit(context, random_target, -amount)
+            await self.adjust_id_credit(context, random_target, -amount, True)
         else:
             await self.adjust_credit(context, target, -amount)
         return
@@ -88,7 +88,7 @@ class SocialCredit(commands.Cog):
         if "random" in target.lower():
             members = [member.id for member in context.guild.members]
             random_target = members[random.randint(0, len(members))]
-            await self.adjust_id_credit(context, random_target, amount)
+            await self.adjust_id_credit(context, random_target, amount, True)
         else:
             await self.adjust_credit(context, target, amount)
         return
