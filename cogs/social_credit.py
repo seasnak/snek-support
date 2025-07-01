@@ -60,7 +60,7 @@ class SocialCredit(commands.Cog):
         TOXICITY_COOLDOWN = 30
 
         current_time = time.time()
-        if autho_id not in config.user_toxicity_timer:
+        if author_id not in config.user_toxicity_timer:
             config.user_toxicity_timer[author_id] = current_time
         elif current_time - config.user_toxicity_timer[author_id] < TOXICITY_COOLDOWN:
             time_difference = int(current_time - config.user_toxicity_timer[author_id])
