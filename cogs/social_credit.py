@@ -74,7 +74,8 @@ class SocialCredit(commands.Cog):
             members = [member.id for member in context.guild.members]
             random_target = members[random.randint(0, len(members))]
             await self.adjust_id_credit(context, random_target, -amount)
-        await self.adjust_credit(context, target, -amount)
+        else:
+            await self.adjust_credit(context, target, -amount)
         return
 
     @commands.hybrid_command(
