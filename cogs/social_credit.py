@@ -72,8 +72,8 @@ class SocialCredit(commands.Cog):
         
         if "random" in target.lower():
             members = [member.id for member in context.guild.members]
-            random_target = members[random.randint(0, len(members))]
-            await self.adjust_id_credit(context, random_target, -amount, True)
+            random_target = members[random.randint(0, len(members)-1)]
+            await self.adjust_id_credit(context, random_target, -amount, allow_self=True)
         else:
             await self.adjust_credit(context, target, -amount)
         return
@@ -87,8 +87,8 @@ class SocialCredit(commands.Cog):
 
         if "random" in target.lower():
             members = [member.id for member in context.guild.members]
-            random_target = members[random.randint(0, len(members))]
-            await self.adjust_id_credit(context, random_target, amount, True)
+            random_target = members[random.randint(0, len(members)-1)]
+            await self.adjust_id_credit(context, random_target, amount, allow_self=True)
         else:
             await self.adjust_credit(context, target, amount)
         return
