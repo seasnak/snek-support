@@ -71,7 +71,7 @@ class SocialCredit(commands.Cog):
         amount = random.randint(1, 100)
         members = [member.id for member in context.guild.members]
         random_toxicity_target = members[random.randint(0, len(members)-1)]
-        random_generosity_target = members[random.randint(0, len(members)-1]
+        random_generosity_target = members[random.randint(0, len(members)-1)]
         await self.adjust_id_credit(context, random_toxicity_target, -amount, allow_self=True)
         await self.adjust_id_credit(context, random_generosity_target, amount, allow_self=True)
         return
