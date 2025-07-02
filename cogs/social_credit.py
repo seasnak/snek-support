@@ -19,6 +19,8 @@ command_queue = []
 class SocialCredit(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
+        self.handle_command_queue.start()
+        print("Started Command Queue Handler")
     
     async def adjust_credit(self, context: commands.Context, target:str, amount):
         target_id = utils.find_user_id(target)
