@@ -1,5 +1,5 @@
 from discord import NotFound
-from discord.ext import commands
+from discord.ext import commands, tasks
 
 import time
 from datetime import datetime
@@ -14,17 +14,19 @@ import pickle
 MAX_AMOUNT: int = 100
 MIN_AMOUNT: int = 1
 
+command_queue = []
+
 class SocialCredit(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
-
+    
     async def adjust_credit(self, context: commands.Context, target:str, amount):
         target_id = utils.find_user_id(target)
         if target_id < 0: return
         await self.adjust_id_credit(context, target_id, amount)
         return
 
-    async def adjust_id_credit(self, context:commands.Context, target_id:int, amount: int, allow_self: bool = False): 
+    async def adjust_id_credit(self, context:commands.Context, target_id:int, amount: int, allow_self: bool = False, send_message = True): 
         if target_id == context.author.id and allow_self == False:
             try:
                 await context.message.add_reaction("👎")
@@ -32,7 +34,7 @@ class SocialCredit(commands.Cog):
                 await context.send("...")
             except Exception as exception:
                 print(f"{type(exception).__name__} Error: {exception}.")
-            return
+            return "ERROR"
 
         username= await context.bot.fetch_user(target_id)
         if target_id not in config.user_social_credit:
@@ -42,14 +44,13 @@ class SocialCredit(commands.Cog):
         new_credit = max(-1000, start_credit + amount)
         try:
             await context.message.add_reaction("👍")
-        # except NotFound:
-        #     print("Message not found")
         except Exception as exception:
-            print(f"Error adjusting credit for username{target_id}. {type(exception).__name__}.") 
-        await context.send(f"{username}: {start_credit} [{"+" if amount > 0 else ""}{amount}] = {new_credit}")
+            print(f"Error adjusting credit for username{target_id}. {type(exception).__name__}.")
+        if send_message:
+            await context.send(f"{username}: {start_credit} [{"+" if amount > 0 else ""}{amount}] = {new_credit}")
         config.user_social_credit[target_id] = new_credit
         
-        return
+        return f"{username}: {start_credit} [{"+" if amount > 0 else ""}{amount}] = {new_credit}"
     
     @commands.hybrid_command(
         name="equality",
@@ -72,8 +73,13 @@ class SocialCredit(commands.Cog):
         members = [member.id for member in context.guild.members]
         random_toxicity_target = members[random.randint(0, len(members)-1)]
         random_generosity_target = members[random.randint(0, len(members)-1)]
-        await self.adjust_id_credit(context, random_toxicity_target, -amount, allow_self=True)
-        await self.adjust_id_credit(context, random_generosity_target, amount, allow_self=True)
+        
+
+        # message = await self.adjust_id_credit(context, random_toxicity_target, -amount, allow_self=True, send_message=False) + "\n"
+        # message += await self.adjust_id_credit(context, random_generosity_target, amount, allow_self=True, send_message=False)
+        # await context.send(message)
+
+        command_queue.append(('equality', context, (random_toxicity_target, random_generosity_target, amount)))
         return
  
 
@@ -99,9 +105,11 @@ class SocialCredit(commands.Cog):
         if "random" in target.lower():
             members = [member.id for member in context.guild.members]
             random_target = members[random.randint(0, len(members)-1)]
-            await self.adjust_id_credit(context, random_target, -amount, allow_self=True)
+            # await self.adjust_id_credit(context, random_target, -amount, allow_self=True)
+            command_queue.append(("random", context, (random_target, amount)))
         else:
-            await self.adjust_credit(context, target, -amount)
+            # await self.adjust_credit(context, target, -amount)
+            command_queue.append(("", context, (target, -amount)))
         return
 
     @commands.hybrid_command(
@@ -114,9 +122,11 @@ class SocialCredit(commands.Cog):
         if "random" in target.lower():
             members = [member.id for member in context.guild.members]
             random_target = members[random.randint(0, len(members)-1)]
-            await self.adjust_id_credit(context, random_target, amount, allow_self=True)
+            # await self.adjust_id_credit(context, random_target, amount, allow_self=True)
+            command_queue.append(("random", context, (random_target, amount)))
         else:
-            await self.adjust_credit(context, target, amount)
+            # await self.adjust_credit(context, target, amount)
+            command_queue.append(("", context, (target, amount)))
         return
 
     @commands.hybrid_command(
@@ -241,6 +251,27 @@ class SocialCredit(commands.Cog):
             await context.send("Succesfully loaded user social credit")
         except:
             await context.channel.send("Successfully loaded user social credit")
+        return
+     
+    @tasks.loop(seconds=1)
+    async def handle_command_queue(self):
+        if len(command_queue) == 0: return ""
+        
+        command_modifier, context, params = command_queue.pop(0)
+
+        match command_modifier:
+            case 'equality':
+                toxicity_target, generosity_target, amount = params
+                message = await self.adjust_id_credit(context, generosity_target, amount, allow_self=True, send_message=False) + "\n"
+                message += await self.adjust_id_credit(context, toxicity_target, -amount, allow_self=True, send_message=False)
+                await utils.send_context_message(context, message)
+            case 'random':
+                target, amount = params
+                await self.adjust_id_credit(context, target, amount, allow_self=True)
+            case _:
+                target, amount = params
+                await self.adjust_id_credit(context, target, amount)
+
         return
 
 async def setup(bot):
