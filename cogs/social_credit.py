@@ -270,7 +270,7 @@ class SocialCredit(commands.Cog):
                 await self.adjust_id_credit(context, target, amount, allow_self=True)
             case _:
                 target, amount = params
-                await self.adjust_id_credit(context, target, amount)
+                await self.adjust_credit(context, target, amount)
 
         return
 
