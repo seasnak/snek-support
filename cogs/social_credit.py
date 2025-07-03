@@ -81,7 +81,7 @@ class SocialCredit(commands.Cog):
         amount = random.randint(1, 100)
         
         members = [member.id for member in context.guild.members]
-        if "random" in target.lower():
+        if "rand" in target.lower():
             random_toxicity_target_id = members[random.randint(0, len(members)-1)]
             random_generosity_target_id = members[random.randint(0, len(members)-1)]
 
