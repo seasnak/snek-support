@@ -8,6 +8,7 @@ import config
 import random
 import utils
 import math
+from enum import Enum
 
 import pickle
 
@@ -15,6 +16,11 @@ MAX_AMOUNT: int = 100
 MIN_AMOUNT: int = 1
 
 command_queue = []
+
+class Modifier(Enum):
+    NONE=0
+    RANDOM=1
+    pass
 
 class SocialCredit(commands.Cog):
     def __init__(self, bot):
@@ -59,7 +65,7 @@ class SocialCredit(commands.Cog):
         name="equality",
         description="When will you learn..."
     )
-    async def equality(self, context: commands.Context):
+    async def equality(self, context: commands.Context, target: str):
         author_id = context.author.id
         TOXICITY_COOLDOWN = 30
 
@@ -73,18 +79,54 @@ class SocialCredit(commands.Cog):
         
         config.user_toxicity_timer[author_id] = current_time
         amount = random.randint(1, 100)
-        members = [member.id for member in context.guild.members]
-        random_toxicity_target = members[random.randint(0, len(members)-1)]
-        random_generosity_target = members[random.randint(0, len(members)-1)]
         
+        members = [member.id for member in context.guild.members]
+        if "random" in target.lower():
+            random_toxicity_target_id = members[random.randint(0, len(members)-1)]
+            random_generosity_target_id = members[random.randint(0, len(members)-1)]
 
-        # message = await self.adjust_id_credit(context, random_toxicity_target, -amount, allow_self=True, send_message=False) + "\n"
-        # message += await self.adjust_id_credit(context, random_generosity_target, amount, allow_self=True, send_message=False)
-        # await context.send(message)
-
-        command_queue.append(('equality', context, (random_toxicity_target, random_generosity_target, amount)))
+            command_queue.append(('equality', context, (random_toxicity_target_id, random_generosity_target_id, amount)))
+            return
+        
+        random_target_id = members[random.randint(0, len(members)-1)]
+        target_id = utils.find_user_id(target)
+        if target_id < 0: return
+        target_is_generosity: bool = random.randint(0, 1) == 0
+        
+        if target_is_generosity:
+            command_queue.append(('equality', context, (random_target_id, target_id, amount) ))
+        else:
+            command_queue.append(('equality', context, (target_id, random_target_id, amount) ))
         return
- 
+    
+
+    # @commands.hybrid_command(
+    #     name="inequality",
+    #     description="A little more control over who is the target"
+    # )
+    # async def inequality(self, context: commands.Context, target: str):
+    #     author_id = context.author.id
+    #     TOXICITY_COOLDOWN = 30
+    #
+    #     current_time = time.time()
+    #     if author_id not in config.user_toxicity_timer:
+    #         config.user_toxicity_timer[author_id] = current_time
+    #     elif current_time - config.user_toxicity_timer[author_id] < TOXICITY_COOLDOWN:
+    #         time_difference = int(current_time - config.user_toxicity_timer[author_id])
+    #         await utils.send_context_message(context, f"Can't use that command yet! Wait {TOXICITY_COOLDOWN - time_difference} seconds and try again.")
+    #         return
+    #
+    #     config.user_toxicity_timer[author_id] = current_time
+    #     amount = random.randint(1, 100)
+    #     members = [member.id for member in context.guild.members]
+    #     random_target = members[random.randint(0, len(members)-1)]
+    #
+    #     author_is_generosity: bool = random.randint(0, 1) == 0
+    #     if author_is_generosity:
+    #         command_queue.append(('equality', context, (random_target, author_id, amount)))
+    #     else
+    #         command_queue.append(('equality', context, (author_id, random_target, amount)))
+    #     return
 
     @commands.hybrid_command(
         name="toxicity",
