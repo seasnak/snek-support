@@ -4,7 +4,7 @@ use std::collections::HashMap;
 use crate::items::item;
 
 #[pyclass]
-#[derive(Copy, Clone, Debug, PartialEq)]
+#[derive(Clone, Debug)]
 pub struct User {
     #[pyo3(get, set)]
     pub id: i64,
@@ -14,7 +14,7 @@ pub struct User {
     pub social_credit: i16,
     #[pyo3(get, set)]
     pub coins: u16,
-    pub items: HashMap<String, u16>,
+    pub items: HashMap<String, item::Item>,
 }
 
 #[pymethods]
@@ -36,7 +36,18 @@ impl User {
     }
 
     pub fn add_item(&mut self, name: String, item: &item::Item) {
-        if self.items.contains_key(&name) {}
-        self.items.insert(name, *item);
+        if self.items.contains_key(&name) {
+            // adjust quantity
+        } else {
+            self.items.insert(name, item.clone());
+        }
+    }
+
+    pub fn get_item(&mut self, name: String) -> item::Item {
+        self.items.get(&name).unwrap().clone()
+    }
+
+    pub fn get_item_quantity(&mut self, name: String) -> u8 {
+        self.items.get(&name).unwrap().quantity
     }
 }

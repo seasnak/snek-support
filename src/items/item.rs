@@ -1,12 +1,13 @@
 use pyo3::prelude::*;
 
 #[pyclass]
+#[derive(Clone, Debug)]
 pub struct Item {
     #[pyo3(get)]
     pub name: String,
     #[pyo3(get)]
     pub description: String,
-    pub quantity: i8,
+    pub quantity: u8,
     pub is_keyitem: bool,
 }
 
