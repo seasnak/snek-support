@@ -1,4 +1,4 @@
-from discord import NotFound
+from discord import NotFound, app_commands
 from discord.ext import commands, tasks
 
 import time
@@ -14,6 +14,8 @@ import pickle
 
 MAX_AMOUNT: int = 100
 MIN_AMOUNT: int = 1
+
+TOXICITY_COOLDOWN: int = 30
 
 command_queue = []
 
@@ -67,7 +69,6 @@ class SocialCredit(commands.Cog):
     )
     async def equality(self, context: commands.Context, target: str = "random"):
         author_id = context.author.id
-        TOXICITY_COOLDOWN = 30
 
         current_time = time.time()
         if author_id not in config.user_toxicity_timer:
@@ -100,13 +101,12 @@ class SocialCredit(commands.Cog):
         return
     
 
-    @commands.hybrid_command(
+    @commands.command(
         name="toxicity",
         description="Report a toxic individual."
     )
-    async def toxicity(self, context: commands.Context, target: str = "random", *additional_targets, **kwargs):
+    async def toxicity_text(self, context: commands.Context, target: str = "random", *additional_targets):
         author_id = context.author.id
-        TOXICITY_COOLDOWN = 30
         
         current_time = time.time()
         if author_id not in config.user_toxicity_timer:
@@ -124,21 +124,81 @@ class SocialCredit(commands.Cog):
             random_target = members[random.randint(0, len(members)-1)]
             # await self.adjust_id_credit(context, random_target, -amount, allow_self=True)
             command_queue.append(("random", context, (random_target, -amount)))
-        elif additional_targets is not None and len(additional_targets) > 0:
-            selected_members = [additional_target for additional_target in additional_targets].append(target)
+        elif additional_targets:
+            selected_members = list(additional_targets).copy()
+            selected_members.append(target)
             if selected_members is None: return
             random_target = selected_members[random.randint(0, len(selected_members)-1)]
+            command_queue.append(("", context, (random_target, -amount)))
+        else:
+            # await self.adjust_credit(context, target, -amount)
+            command_queue.append(("", context, (target, -amount)))
+        return
+
+    @app_commands.command(
+        name="toxicity",
+        description="Report a toxic individual."
+    )
+    @app_commands.describe(
+        target="The @ of the person you want to target. Leave empty to choose a random individual"
+    )
+    async def toxicity_slash(self, context: commands.Context, target: str = "random"):
+        author_id = context.author.id
+
+        current_time = time.time()
+        if author_id not in config.user_toxicity_timer:
+            config.user_toxicity_timer[author_id] = current_time
+        elif current_time - config.user_toxicity_timer[author_id] < TOXICITY_COOLDOWN:
+            time_difference = int(current_time - config.user_toxicity_timer[author_id])
+            await utils.send_context_message(context, f"Can't use that command yet! Wait {TOXICITY_COOLDOWN - time_difference} seconds and try again.")
+            return
+        
+        config.user_toxicity_timer[author_id] = current_time
+        amount = random.randint(1, 100)
+        
+        if "rand" in target.lower():
+            members = [member.id for member in context.guild.members]
+            random_target = members[random.randint(0, len(members)-1)]
+            # await self.adjust_id_credit(context, random_target, -amount, allow_self=True)
             command_queue.append(("random", context, (random_target, -amount)))
         else:
             # await self.adjust_credit(context, target, -amount)
             command_queue.append(("", context, (target, -amount)))
         return
 
-    @commands.hybrid_command(
+
+    @commands.command(
         name="generosity",
         description="Support a positive individual."
     )
-    async def generosity(self, context: commands.Context, target: str = "random"):
+    async def generosity(self, context: commands.Context, target: str = "random", *additional_targets):
+        amount = random.randint(1, 100)
+
+        if "rand" in target.lower():
+            members = [member.id for member in context.guild.members]
+            random_target = members[random.randint(0, len(members)-1)]
+            # await self.adjust_id_credit(context, random_target, amount, allow_self=True)
+            command_queue.append(("random", context, (random_target, amount)))
+        elif additional_targets:
+            selected_members = list(additional_targets).copy()
+            selected_members.append(target)
+            if selected_members is None: return
+            random_target = selected_members[random.randint(0, len(selected_members)-1)]
+            print(random_target)
+            command_queue.append(("", context, (random_target, amount)))
+        else:
+            # await self.adjust_credit(context, target, amount)
+            command_queue.append(("", context, (target, amount)))
+        return
+
+    @app_commands.command(
+        name="generosity",
+        description="Support a positive individual."
+    )
+    @app_commands.describe(
+        target="The @ of the person you want to target. Leave empty to choose a random individual"
+    )
+    async def generosity_slash(self, context: commands.Context, target: str = "random"):
         amount = random.randint(1, 100)
 
         if "rand" in target.lower():
@@ -150,6 +210,7 @@ class SocialCredit(commands.Cog):
             # await self.adjust_credit(context, target, amount)
             command_queue.append(("", context, (target, amount)))
         return
+
 
     @commands.hybrid_command(
         name="standings",
