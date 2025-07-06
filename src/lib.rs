@@ -4,4 +4,15 @@ pub mod items;
 pub mod user;
 
 // use item::{Consumable, KeyItem};
-// use user::User;
+use items::item::Item;
+use user::User;
+
+// use crate::items::item::Item;
+// use crate::user::User;
+
+#[pymodule]
+fn snek_objs(_py: Python, module: &Bound<'_, PyModule>) -> PyResult<()> {
+    module.add_class::<Item>()?;
+    module.add_class::<User>()?;
+    Ok(())
+}

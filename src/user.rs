@@ -14,7 +14,7 @@ pub struct User {
     pub social_credit: i16,
     #[pyo3(get, set)]
     pub coins: u16,
-    pub items: HashMap<String, item::Item>,
+    pub inventory: HashMap<String, (item::Item, i16)>,
 }
 
 #[pymethods]
@@ -31,23 +31,16 @@ impl User {
             username: name,
             social_credit: social_credit,
             coins: num_coins,
-            items: HashMap::new(),
+            inventory: HashMap::new(),
         }
     }
 
     pub fn add_item(&mut self, name: String, item: &item::Item) {
-        if self.items.contains_key(&name) {
+        if self.inventory.contains_key(&name) {
             // adjust quantity
+            // self.inventory.entry(name).and_modify();
         } else {
-            self.items.insert(name, item.clone());
+            self.inventory.insert(name, (item.clone(), 1));
         }
-    }
-
-    pub fn get_item(&mut self, name: String) -> item::Item {
-        self.items.get(&name).unwrap().clone()
-    }
-
-    pub fn get_item_quantity(&mut self, name: String) -> u8 {
-        self.items.get(&name).unwrap().quantity
     }
 }
