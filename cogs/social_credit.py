@@ -184,7 +184,6 @@ class SocialCredit(commands.Cog):
             selected_members.append(target)
             if selected_members is None: return
             random_target = selected_members[random.randint(0, len(selected_members)-1)]
-            print(random_target)
             command_queue.append(("", context, (random_target, amount)))
         else:
             # await self.adjust_credit(context, target, amount)
