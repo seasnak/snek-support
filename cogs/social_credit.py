@@ -123,7 +123,7 @@ class SocialCredit(commands.Cog):
             members = [member.id for member in context.guild.members]
             random_target = members[random.randint(0, len(members)-1)]
             # await self.adjust_id_credit(context, random_target, -amount, allow_self=True)
-            command_queue.append(("random", context, (random_target, amount)))
+            command_queue.append(("random", context, (random_target, -amount)))
         else:
             # await self.adjust_credit(context, target, -amount)
             command_queue.append(("", context, (target, -amount)))

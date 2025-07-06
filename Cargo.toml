@@ -1,12 +1,12 @@
 [package]
-name = "snek-support"
+name = "snek-obj"
 version = "0.1.0"
 edition = "2021"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 [lib]
-name = "snek_support"
+name = "snek_obj"
 crate-type = ["cdylib"]
 
 [dependencies]
-pyo3 = "0.25.0"
+pyo3 = "0.25.1"
