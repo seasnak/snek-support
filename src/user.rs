@@ -14,7 +14,7 @@ pub struct User {
     pub social_credit: i16,
     #[pyo3(get, set)]
     pub coins: u16,
-    pub inventory: HashMap<String, (item::Item, i16)>,
+    pub inventory: HashMap<String, item::Item>,
 }
 
 #[pymethods]
@@ -35,12 +35,13 @@ impl User {
         }
     }
 
-    pub fn add_item(&mut self, name: String, item: &item::Item) {
+    pub fn add_item(&mut self, name: String, item: item::Item) {
         if self.inventory.contains_key(&name) {
             // adjust quantity
             // self.inventory.entry(name).and_modify();
         } else {
-            self.inventory.insert(name, (item.clone(), 1));
+            let item: item::Item = item::Item::new(item.name, Some(1), None, None);
+            self.inventory.insert(name, item.clone());
         }
     }
 }
