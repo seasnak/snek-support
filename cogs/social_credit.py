@@ -104,7 +104,7 @@ class SocialCredit(commands.Cog):
         name="toxicity",
         description="Report a toxic individual."
     )
-    async def toxicity(self, context: commands.Context, target: str = "random"):
+    async def toxicity(self, context: commands.Context, target: str = "random", *additional_targets, **kwargs):
         author_id = context.author.id
         TOXICITY_COOLDOWN = 30
         
@@ -123,6 +123,11 @@ class SocialCredit(commands.Cog):
             members = [member.id for member in context.guild.members]
             random_target = members[random.randint(0, len(members)-1)]
             # await self.adjust_id_credit(context, random_target, -amount, allow_self=True)
+            command_queue.append(("random", context, (random_target, -amount)))
+        elif additional_targets is not None and len(additional_targets) > 0:
+            selected_members = [additional_target for additional_target in additional_targets].append(target)
+            if selected_members is None: return
+            random_target = selected_members[random.randint(0, len(selected_members)-1)]
             command_queue.append(("random", context, (random_target, -amount)))
         else:
             # await self.adjust_credit(context, target, -amount)
