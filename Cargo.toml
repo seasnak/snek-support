@@ -5,7 +5,7 @@ edition = "2021"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 [lib]
-name = "snek_obj"
+name = "snekobjs"
 crate-type = ["cdylib"]
 
 [dependencies]

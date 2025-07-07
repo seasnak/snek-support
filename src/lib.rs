@@ -11,7 +11,7 @@ use user::User;
 // use crate::user::User;
 
 #[pymodule]
-fn snek_objs(_py: Python, module: &Bound<'_, PyModule>) -> PyResult<()> {
+fn snekobjs(_py: Python, module: &Bound<'_, PyModule>) -> PyResult<()> {
     module.add_class::<Item>()?;
     module.add_class::<User>()?;
     Ok(())
