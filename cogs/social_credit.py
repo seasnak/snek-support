@@ -46,7 +46,7 @@ class SocialCredit(commands.Cog):
                 print(f"{type(exception).__name__} Error: {exception}.")
             return "ERROR"
 
-        username= await context.bot.fetch_user(target_id)
+        username = await context.bot.fetch_user(target_id)
         if target_id not in config.user_social_credit:
             config.user_social_credit[target_id] = 1000
         
@@ -107,16 +107,6 @@ class SocialCredit(commands.Cog):
     )
     async def apology(self, context: commands.Context, target: str = "random"):
         author_id = context.author.id
-
-        current_time = time.time()
-        if author_id not in config.user_toxicity_timer:
-            config.user_toxicity_timer[author_id] = current_time
-        elif current_time - config.user_toxicity_timer[author_id] < TOXICITY_COOLDOWN:
-            time_difference = int(current_time - config.user_toxicity_timer[author_id])
-            await utils.send_context_message(context, f"Can't use that command yet! Wait {TOXICITY_COOLDOWN - time_difference} seconds and try again.")
-            return
-        
-        config.user_toxicity_timer[author_id] = current_time
         amount = random.randint(1, 100)
         
         if "rand" in target.lower():
@@ -126,7 +116,8 @@ class SocialCredit(commands.Cog):
             command_queue.append(("equality", context, (author_id, random_target, amount)))
         else:
             # await self.adjust_credit(context, target, -amount)
-            command_queue.append(("equality", context, (author_id, target, amount)))
+            target_id = utils.find_user_id(target)
+            command_queue.append(("equality", context, (author_id, target_id, amount)))
         return
 
 
