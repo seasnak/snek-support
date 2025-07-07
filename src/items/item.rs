@@ -28,6 +28,14 @@ impl Reusable for Item {
     const IS_REUSABLE: bool = false;
 }
 
+pub fn get_is_reusable() -> bool {
+    Item::IS_REUSABLE
+}
+
+pub fn get_price() -> u8 {
+    Item::PRICE
+}
+
 pub trait Usable {
     fn use_item(&mut self) -> Result<String, String>;
 }

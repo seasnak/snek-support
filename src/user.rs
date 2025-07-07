@@ -40,7 +40,7 @@ impl User {
             // adjust quantity
             // self.inventory.entry(name).and_modify();
         } else {
-            let item: item::Item = item::Item::new(item.name, Some(1), None, None);
+            let item: item::Item = item::Item::new(item.name, Some(1));
             self.inventory.insert(name, item.clone());
         }
     }
