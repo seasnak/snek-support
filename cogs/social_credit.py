@@ -100,6 +100,35 @@ class SocialCredit(commands.Cog):
             command_queue.append(('equality', context, (target_id, random_target_id, amount) ))
         return
     
+    
+    @commands.hybrid_command(
+        name="apology",
+        description="Apologize to an individual",
+    )
+    async def apology(self, context: commands.Context, target: str = "random"):
+        author_id = context.author.id
+
+        current_time = time.time()
+        if author_id not in config.user_toxicity_timer:
+            config.user_toxicity_timer[author_id] = current_time
+        elif current_time - config.user_toxicity_timer[author_id] < TOXICITY_COOLDOWN:
+            time_difference = int(current_time - config.user_toxicity_timer[author_id])
+            await utils.send_context_message(context, f"Can't use that command yet! Wait {TOXICITY_COOLDOWN - time_difference} seconds and try again.")
+            return
+        
+        config.user_toxicity_timer[author_id] = current_time
+        amount = random.randint(1, 100)
+        
+        if "rand" in target.lower():
+            members = [member.id for member in context.guild.members]
+            random_target = members[random.randint(0, len(members)-1)]
+            # await self.adjust_id_credit(context, random_target, -amount, allow_self=True)
+            command_queue.append(("equality", context, (author_id, random_target, amount)))
+        else:
+            # await self.adjust_credit(context, target, -amount)
+            command_queue.append(("equality", context, (author_id, target, amount)))
+        return
+
 
     @commands.command(
         name="toxicity",
