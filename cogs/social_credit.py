@@ -1,3 +1,4 @@
+import discord
 from discord import NotFound, app_commands
 from discord.ext import commands, tasks
 
@@ -30,14 +31,17 @@ class SocialCredit(commands.Cog):
         self.handle_command_queue.start()
         print("Started Command Queue Handler")
     
-    async def adjust_credit(self, context: commands.Context, target:str, amount):
+    async def adjust_credit(self, context: commands.Context, target:str, amount: int):
         target_id = utils.find_user_id(target)
         if target_id < 0: return
         await self.adjust_id_credit(context, target_id, amount)
         return
 
-    async def adjust_id_credit(self, context:commands.Context, target_id:int, amount: int, allow_self: bool = False, send_message = True): 
-        if target_id == context.author.id and allow_self == False:
+    async def adjust_id_credit(self, context, target_id: int, amount: int, allow_self: bool = False, send_message = True):
+        is_interaction = type(context) is discord.interactions.Interaction
+        author_id = context.user.id if is_interaction else context.author.id
+            
+        if target_id == author_id and allow_self == False:
             try:
                 await context.message.add_reaction("👎")
             except NotFound:
@@ -46,7 +50,7 @@ class SocialCredit(commands.Cog):
                 print(f"{type(exception).__name__} Error: {exception}.")
             return "ERROR"
 
-        username = await context.bot.fetch_user(target_id)
+        username = await context.client.fetch_user(target_id) if is_interaction else await context.bot.fetch_user(target_id)
         if target_id not in config.user_social_credit:
             config.user_social_credit[target_id] = 1000
         
@@ -58,7 +62,11 @@ class SocialCredit(commands.Cog):
         except Exception as exception:
             print(f"Error adjusting credit for username{target_id}. {type(exception).__name__}.")
         if send_message:
-            await context.send(f"{username}: {start_credit} [{"+" if amount > 0 else ""}{amount}] = {new_credit}")
+            message = f"{username}: {start_credit} [{"+" if amount > 0 else ""}{amount}] = {new_credit}"
+            try:
+                await context.send(message)
+            except:
+                await context.response.send_message(message)
         config.user_social_credit[target_id] = new_credit
         
         return f"{username}: {start_credit} [{"+" if amount > 0 else ""}{amount}] = {new_credit}"
@@ -370,9 +378,15 @@ class SocialCredit(commands.Cog):
             case 'random':
                 target, amount = params
                 await self.adjust_id_credit(context, target, amount, allow_self=True)
+            case 'random_id':
+                target_id, amount = params
+                await self.adjust_id_credit(context=context, target_id=target_id, amount=amount, allow_self=True)
+            case 'id':
+                target_id, amount = params
+                await self.adjust_id_credit(context, target_id, amount)
             case _:
                 target, amount = params
-                await self.adjust_credit(context, target, amount)
+                await self.adjust_credit(context=context, target=target, amount=amount)
 
         return
 
