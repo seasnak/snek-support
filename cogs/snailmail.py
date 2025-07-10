@@ -8,9 +8,25 @@ import utils
 import pickle
 from enum import Enum
 
+from datetime import datetime
+
 class SnailMailMethod(Enum):
-    SLUGGISH=1,
-    SLOW=2,
+    SLUGGISH=1, # 3 months to a year
+    SLOW=2, # 30 days to 3 months
+    STANDARD=3, # 14 to 30 days 
+    PRIORITY=4, # 7 to 14 days
+    EXPRESS=5, # 5 to 7 days
+    pass
+
+snailmailduration = {
+    SnailMailMethod.SLUGGISH: (),
+    SnailMailMethod.SLOW: (),
+    SnailMailMethod.STANDARD: (),
+    SnailMailMethod.PRIORITY: (),
+    SnailMailMethod.EXPRESS: (),
+
+}
+
 
 
 class SnailMail(commands.Cog):
@@ -22,7 +38,6 @@ class SnailMail(commands.Cog):
         description="send a message to someone!"
     )
     async def snailmail(self, context: commands.Context, method: SnailMailMethod, recipient: str, message: str):
-        
         
         return
 
