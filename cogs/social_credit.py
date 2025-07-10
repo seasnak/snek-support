@@ -170,8 +170,8 @@ class SocialCredit(commands.Cog):
     @app_commands.describe(
         target="The @ of the person you want to target. Leave empty to choose a random individual"
     )
-    async def toxicity_slash(self, context: commands.Context, target: str = "random"):
-        author_id = context.author.id
+    async def toxicity_slash(self, context: discord.interactions.Interaction, target: str = "random"):
+        author_id = context.user.id
 
         current_time = time.time()
         if author_id not in config.user_toxicity_timer:
@@ -225,7 +225,7 @@ class SocialCredit(commands.Cog):
     @app_commands.describe(
         target="The @ of the person you want to target. Leave empty to choose a random individual"
     )
-    async def generosity_slash(self, context: commands.Context, target: str = "random"):
+    async def generosity_slash(self, context: discord.interactions.Interaction, target: str = "random"):
         amount = random.randint(1, 100)
 
         if "rand" in target.lower():
