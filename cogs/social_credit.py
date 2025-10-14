@@ -1,5 +1,5 @@
-import discord
 from discord import NotFound, app_commands
+import discord
 from discord.ext import commands, tasks
 
 import time

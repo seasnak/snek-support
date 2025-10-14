@@ -1,0 +1,451 @@
+Kuramon
+Choromon
+Dodomon
+Bubbmon
+Punimon
+Botamon
+Poyomon
+Caprimon
+Koromon
+Tanemon
+Tunomon
+Tsumemon
+Tokomon
+Dorimon
+Nyaromon
+Pagumon
+Pyocomon
+Pukamon
+Mochimon
+Wanyamon
+Agumon
+Kudamon
+Gomamon
+Coronamon
+Zubamon
+Solarmon
+Terriermon
+Tentomon
+Toy Agumon
+Bakumon
+Hyokomon
+Piyomon
+Falcomon
+Plotmon
+Bearmon
+Penmon
+Monodramon
+Ryudamon
+Lucemon
+Elecmon
+Gaomon
+Ganimon
+Gabumon
+Kamemon
+Kokuwamon
+Gottsumon
+Kotemon
+Shoutmon
+Dracomon
+Dorumon
+Patamon
+Hackmon
+Palmon
+Floramon
+Muchomon
+Lalamon
+Lunamon
+Renamon
+Lopmon
+Impmon
+Otamamon
+Gazimon
+Gizamon
+Guilmon
+Goburimon
+Shamamon
+Shakomon
+Snow Goburimon
+Tyumon
+Dracumon
+Hagurumon
+Pico Devimon
+Funbeemon
+Betamon
+Mushmon
+Armadimon
+V-Mon
+Hawkmon
+Wormmon
+Keramon
+Aegiomon
+Ikkakumon
+Airdramon
+Angemon
+Kabuterimon
+Gargomon
+Garurumon
+Ginryumon
+Gryzmon
+Greymon
+Coredramon (Blue)
+Geo Greymon
+Strikedramon
+Snimon
+Zubaeagermon
+Sorcerimon
+Tailmon
+Dobermon
+Birdramon
+Firamon
+V-Dramon
+Buraimon
+Peckmon
+Mojyamon
+Yukidarumon
+Unimon
+Raptordramon
+Revolmon
+Leomon
+Reppamon
+Icemon
+Wizarmon
+Witchmon
+Gaogamon
+Gawappamon
+Kiwimon
+Kyubimon
+Clockmon
+Centalmon
+Sunflowmon
+Seadramon
+Coelamon
+Shellmon
+Starmon
+Tankmon
+Tuchidarumon
+Dinohumon
+Tyranomon
+Turuiemon
+Togemon
+Drimogemon
+Dorugamon
+Bao Hackmon
+Blimpmon
+Meramon
+Monochromon
+Lekismon
+Ice Devimon
+Wendimon
+Woodmon
+Orgemon
+Octmon
+Guardromon
+Karatuki Numemon
+Growmon
+Kuwagamon
+Gekomon
+Geremon
+Coredramon (Green)
+Gold Numemon
+Golemon
+Cyclomon
+Sangloupmon
+Scumon
+Tuskmon
+Devimon
+Deltamon
+Dokugumon
+Nanimon
+Numemon
+Bakemon
+Hyougamon
+Fugamon
+Flymon
+Platinum Scumon
+Black Tailmon
+Vegimon
+Minotaurmon
+Musyamon
+Mechanorimon
+Raremon
+Waspmon
+Aquilamon
+Ankylomon
+Xv-Mon
+Guardromon (Gold)
+Stingmon
+Chrysalimon
+Submarimon
+Shurimon
+Digmon
+Nefertimon
+Fladramon
+Pegasmon
+Holsmon
+Lighdramon
+Agnimon
+Wolfmon
+Ranamon
+Vritramon
+Calamaramon
+Garummon
+Aegiochusmon
+Aegiochusmon: Green
+Aegiochusmon: Dark
+Aegiochusmon: Blue
+Aegiochusmon: Holy
+Atlur Kabuterimon
+Andromon
+Wingdramon
+Aero V-Dramon
+Ex-Tyranomon
+Angewomon
+Garudamon
+Grappu Leomon
+Grademon
+Great Gryzmon
+Cerberumon
+Cerberumon: Werewolf Mode
+Cyberdramon
+Jewelbeemon
+Zudomon
+Tyilinmon
+Duramon
+Parrotmon
+Panjyamon
+Hisyaryumon
+Butenmon
+Flaremon
+Whamon
+Holy Angemon
+Mammon
+Metal Greymon
+Monzaemon
+Yatagaramon
+Rize Greymon
+Rapidmon Perfect
+Loader Leomon
+Were Garurumon
+Anomalocarimon
+Enbarrmon
+Andiramon
+Insekimon
+Omega Shoutmon
+Chimairamon
+Catch Mamemon
+Crescemon
+Super Starmon
+Skull Baluchimon
+Savior Hackmon
+Sirenmon
+Taomon
+Digitamamon
+Death Meramon
+Delumon
+Triceramon
+Doruguremon
+Knightmon
+Hangyomon
+Pandamon
+Pumpmon
+Big Mamemon
+Piccolomon
+Hippogriffomon
+Brachiomon
+Volcamon
+Master Blimpmon
+Mach Gaogamon
+Mamemon
+Mega Seadramon
+Metal Mamemon
+Lilamon
+Lilimon
+Locomon
+Astamon
+Archnemon
+Vamdemon
+Etemon
+Okuwamon
+Orochimon
+Gerbemon
+Gigadramon
+Cannonbeemon
+Groundramon
+Sharkmon
+Shawujinmon
+Jyureimon
+Skull Greymon
+Skull Satamon
+Skullseadramon
+Dark Super Starmon
+Dagomon
+Tankdramon
+Tonosama Gekomon
+Nanomon
+Fantomon
+Black King Numemon
+Blue Meramon
+Vademon
+Matadrmon
+Mummymon
+Mistymon
+Megadramon
+Megalo Growmon
+Metal Tyranomon
+Lucemon: Falldown Mode
+Lady Devimon
+Wisemon
+Waru Seadramon
+Shakkoumon
+Silphymon
+Dinobeemon
+Paildramon
+Infermon
+Aldamon
+Beowolfmon
+Apollomon
+Alphamon
+Ulforce V-Dramon
+Valdurmon
+Venusmon
+War Greymon
+Ouryumon
+Ofanimon
+Clavis Angemon
+Craniummon
+Crossmon
+Chronomon
+Cherubimon (Vice)
+Cherubimon (Virtue)
+Goddramon
+Shine Greymon
+Justimon
+Skull Mammon
+Slash Angemon
+Sleipmon
+Slayerdramon
+Seraphimon
+Saint Galgomon
+Durandamon
+Neptunemon
+Hi Andromon
+Bancho Leomon
+Herakle Kabuterimon
+Hououmon
+Holydramon
+Mastemon
+Marin Angemon
+Marsmon
+Jupitermon
+Ravmon
+Ultimate Brachiomon
+Vulcanusmon
+Gankoomon
+Kuzuhamon
+Grand Locomon
+Griffomon
+Ceresmon
+Ceresmon Medium
+Saber Leomon
+Sakuyamon
+Jesmon
+Jumbo Gamemon
+Dianamon
+Dynasmon
+Duftmon
+Duftmon: Leopard Mode
+Dorugoramon
+Pile Volcamon
+Prince Mamemon
+Plesiomon
+Boltmon
+Mirage Gaogamon
+Metal Garurumon
+Metal Seadramon
+Medieval Dukemon
+Rosemon
+Lotusmon
+Avenge Kidmon
+Ebemon
+Venom Vamdemon
+Ancient Wisemon
+Gaioumon
+Chaos Dukemon
+Chaosdramon
+Callismon
+Gundramon
+King Etemon
+Grand Dracumon
+Chronomon Destroy
+Zanbamon
+Undead Plutomon
+Darkdramon
+Tiger Vespamon
+Titamon
+Tyrant Kabuterimon
+Demon
+Dukemon
+Bacchusmon
+Bacchusmon Drunk
+Barbamon
+Piemon
+Pinochimon
+Pharaohmon
+Pukumon
+Platinum Numemon
+Plutomon
+Breakdramon
+Belial Vamdemon
+Beel Starmon
+Beelzebumon
+Belphemon: Sleep Mode
+Magna Kidmon
+Minervamon
+Millenniumon
+Mugendramon
+Megidramon
+Metal Etemon
+Mercurymon
+Junomon
+Junomon: Hysteric Mode
+Rust Tyranomon
+Leviamon
+Lilithmon
+Lord Knightmon
+Imperialdramon: Dragon Mode
+Imperialdramon: Fighter Mode
+Vikemon
+Valkyrimon
+Gran Kuwagamon
+Diablomon
+Rapidmon Armor
+Magnamon
+Kaiser Greymon
+Magna Garurumon
+Magna Garurumon: Separation
+Alphamon: Ouryuken
+Enbarrmon Craniummon
+Imperialdramon: Paladin Mode
+Omegamon
+Omegamon Zwart
+Chaosmon
+Chaosmon: Valdur Arm
+Grace Novamon
+Shine Greymon: Burst Mode
+Susanoomon
+Jupitermon: Wrath Mode
+Ravmon: Burst Mode
+Examon
+Mirage Gaogamon: Burst Mode
+Rosemon: Burst Mode
+Skull Baluchimon Titamon
+Dukemon: Crimson Mode
+Beelzebumon: Blast Mode
+Belphemon: Rage Mode
+Mervamon
+Lucemon: Satan Mode
+Armagemon
+Agumon -Yuki No Kizuna-
+Apocalymon
+Gabumon -Yujo No Kizuna-
